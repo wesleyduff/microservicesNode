@@ -1,0 +1,6 @@
+node_modules
+
+api-gateway/node_modules
+news-service/node_modules
+sports-service/node_modules
+

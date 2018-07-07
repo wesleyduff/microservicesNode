@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: api-gateway-svc
+  name: api-gateway-svc
+  namespace: microservices
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: api-gateway-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: api-gateway-svc
+    spec:
+      containers:
+      - name: api-gateway-svc
+        image: node/api-gateway
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: api-gateway-svc
+  name: api-gateway-svc
+  namespace: microservices
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v0
+      kind:  Mapping
+      name:  raven_mapping
+      prefix: /raven/
+      rewrite: /api/raven/
+      service: api-gateway-svc
+spec:
+  selector:
+    run: api-gateway-svc
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  sessionAffinity: None
+  type: ClusterIP

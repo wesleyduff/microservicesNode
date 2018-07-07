@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: news-svc
+  name: news-svc
+  namespace: microservices
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: news-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: news-svc
+    spec:
+      containers:
+      - name: news-svc
+        image: node/news-service
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3002
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: news-svc
+  name: news-svc
+  namespace: microservices
+spec:
+  selector:
+    run: news-svc
+  ports:
+  - port: 3002
+    protocol: TCP
+    targetPort: 3002
+  sessionAffinity: None
+  type: ClusterIP

@@ -89,4 +89,7 @@ Destroy ALL for a Docker Refresh
 - show just running ` $ --all`
 - only display numeric IDs `-quiet`
 
+ssh into contianer : 
+`docker exec -it 636 /bin/bash`
+
 `docker container stop $(docker container ls -a -q) && docker system prune -a -f --volumes`

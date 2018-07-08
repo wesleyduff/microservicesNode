@@ -4,3 +4,6 @@ api-gateway/node_modules
 news-service/node_modules
 sports-service/node_modules
 
+.DS_Store
+.idea
+

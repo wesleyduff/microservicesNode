@@ -3,8 +3,9 @@ const chalk = require('chalk');
 const httpProxy = require('http-proxy');
 const apiProxy = httpProxy.createProxyServer();
 
-const   sportsServerIp = 'sports-svc.microservices:3001',
-        newsServerIp = 'news-svc.microservices:3002';
+const   sportsServerIp = 'sports-svc:3001',
+        newsServerIp = 'news-svc:3002';
+
 
 app.get('/', (req, res) => {
     res.send('Base express app : dockerized : Charter : News and Sports : RAVEN');

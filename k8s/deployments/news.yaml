@@ -4,9 +4,8 @@ metadata:
   labels:
     run: news-svc
   name: news-svc
-  namespace: microservices
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       run: news-svc
@@ -22,8 +21,8 @@ spec:
     spec:
       containers:
       - name: news-svc
-        image: node/news-service
-        imagePullPolicy: IfNotPresent
+        image: wesduff/newsms:v1
+        imagePullPolicy: Always
         ports:
         - containerPort: 3002
       dnsPolicy: ClusterFirst
@@ -35,7 +34,6 @@ metadata:
   labels:
     run: news-svc
   name: news-svc
-  namespace: microservices
 spec:
   selector:
     run: news-svc

@@ -31,15 +31,27 @@ make 2 dbs ['news', 'sports']
 
 THought - : I would like to sue mongoose for mongodb that way we can have schemas and a littl emroe control over documents.
 ## Setup local DB - Postgres
-Install postgresql with brew
-- $ brew install postgresql
+[tutoeial](https://medium.com/@nicdoye/installing-postgresql-via-helm-237e026453b1)
 
-To have launchd start postgresql now and restart at login:
-  brew services start postgresql
-Or, if you don't want/need a background service you can just run:
-  pg_ctl -D /usr/local/var/postgres start
-==> Summary
-🍺  /usr/local/Cellar/postgresql/10.4: 3,389 files, 39.2MB
+**prerequisite** : without helm ... deploying an app like postgresSQL could cause a lot of errors unless you do it right. My last job (healthgrades) ueses **helm** to doploy their kubernetes pods
+- `$ brew install kubernetes-helm`
+
+### Setup DB
+Pull docker images, build pods 
+- `$ helm install stable/postgresql`
+
+Next we need to get the password for our DB : You will be told a magic command to get the DB Password. Something like below
+- `$ PGPASSWORD=$(kubectl get secret \
+      --namespace default \
+      agile-shrimp-postgresql \
+      -o jsonpath="{.data.postgres-password}" \
+      | base64 --decode; echo)`
+- `$ echo $PGPASSWORD` // This gives you your password. Just copy this and use to connect to the kubernetes instance.
+
+Connect to kubernetes postgresSQL pod in Express App. I am using npm module pg-promise, but you can use anything.
+
+`var pgp = require('pg-promise')();`  
+`const db = pgp('postgres://<your user>:<your password>@lazy-jackal-postgresql.default.svc.cluster.local:5432/news')` // make sure you use the name provided by the helm install. Mine is lazy-jackal. 
 
 ## Install VirtualBox
 We need a virtual environment for our kubernetes minikube. I highly suggest Virtualbox because it is free and works pretty well.
@@ -95,6 +107,9 @@ mine was : http://192.168.99.100:30586
 - $ kubectl delete --all namespaces
 - $ minikube service -n microservices api-gateway-service --url
 
+Update image
+- $ kubectl set image deployment/hello-node hello-node=hello-node:v2
+
 list docker images 
 - $ docker images -a
 - $ docker image ls
@@ -118,3 +133,7 @@ ssh into contianer :
 `docker exec -it 636 /bin/bash`
 
 `docker container stop $(docker container ls -a -q) && docker system prune -a -f --volumes`
+
+## Debug a failed pod
+At the bottom will show you what happened, step by step
+- `$ kubectl describe pod <podname>`

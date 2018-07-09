@@ -1,6 +1,8 @@
 const app = require('express')();
 const chalk = require('chalk');
-
+var pgp = require('pg-promise')();
+const db = pgp('postgres://postgres:RLpKdNGP4B@lazy-jackal-postgresql.default.svc.cluster.local:5432/news')
+//const db = pgp('postgres://postgres:IGmC0SrtBd@localhost:5432/news');
 // const MongoClient = require('mongodb').MongoClient
 // let db = null;
 // MongoClient.connect('mongodb://mongo:27017/news', function (err, db_access) {
@@ -12,6 +14,17 @@ app.get('/', (req, res) => {
     res.send('Raven - NEWS - API');
 });
 
+app.get('/api/news/healthcheck', (req, res) => {
+    db.any('SELECT * FROM test')
+        .then(function (data) {
+            const result = JSON.stringify(data[0]);
+            res.send(result)
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+            res.send('error : ' + error)
+        })
+});
 app.get("/api/news/:id", (req, res) => {
     // const doc = db.breakingNews.find();
     // res.json(doc);

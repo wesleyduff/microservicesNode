@@ -2,13 +2,13 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    run: news-svc
-  name: news-svc
+    run: sports-svc
+  name: sports-svc
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: news-svc
+      run: sports-svc
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -17,14 +17,14 @@ spec:
   template:
     metadata:
       labels:
-        run: news-svc
+        run: sports-svc
     spec:
       containers:
-      - name: news-svc
-        image: node/news:vp2
+      - name: sports-svc
+        image: node/sports:vp5
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 3002
+        - containerPort: 3001
       dnsPolicy: ClusterFirst
       restartPolicy: Always
 ---
@@ -32,14 +32,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    run: news-svc
-  name: news-svc
+    run: sports-svc
+  name: sports-svc
 spec:
   selector:
-    run: news-svc
+    run: sports-svc
   ports:
-  - port: 3002
+  - port: 3001
     protocol: TCP
-    targetPort: 3002
+    targetPort: 3001
   sessionAffinity: None
   type: ClusterIP

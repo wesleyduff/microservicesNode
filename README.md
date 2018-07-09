@@ -39,7 +39,9 @@ THought - : I would like to sue mongoose for mongodb that way we can have schema
 ### Setup DB
 Pull docker images, build pods 
 - `$ helm install stable/postgresql`
+- `$ helm install stable/mongodb`
 
+**NOTE: both mongodb and postgresSQL are handled the same**
 Next we need to get the password for our DB : You will be told a magic command to get the DB Password. Something like below
 - `$ PGPASSWORD=$(kubectl get secret \
       --namespace default \

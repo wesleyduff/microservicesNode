@@ -1,8 +1,39 @@
 const app = require('express')();
 const chalk = require('chalk');
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://root:5g9x4FiHCU@vocal-alpaca-mongodb.default.svc.cluster.local:27017'
+// Database Name
+const dbName = 'sports';
 
 app.get('/', (req, res) => {
     res.send('Raven - Sports - API');
+});
+
+app.get('/api/sports/healthcheck', (req, res) => {
+    MongoClient.connect(url, (err, client) => {
+        if (err) {
+            res.json({
+                err
+            })
+        } else {
+            const db = client.db(dbName);
+            db.collection('lakers').find().toArray((error, result) =>{
+                if(error) {
+                    console.log(error);
+                    res.json({
+                        error
+                    });
+                } else {
+                    console.log(result);
+                    res.json({
+                        result
+                    })
+                }
+            });
+            client.close();
+        }
+    });
+
 });
 
 app.get("/api/sports/:id", (req, res) => {

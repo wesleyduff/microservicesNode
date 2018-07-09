@@ -1,11 +1,20 @@
 const app = require('express')();
 const chalk = require('chalk');
 
+// const MongoClient = require('mongodb').MongoClient
+// let db = null;
+// MongoClient.connect('mongodb://mongo:27017/news', function (err, db_access) {
+//     if (err) throw err
+//     db = db_access;
+// })
+
 app.get('/', (req, res) => {
     res.send('Raven - NEWS - API');
 });
 
 app.get("/api/news/:id", (req, res) => {
+    // const doc = db.breakingNews.find();
+    // res.json(doc);
     const id = parseInt(req.params.id);
     res.json({
         id: id,

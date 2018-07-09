@@ -1,10 +1,35 @@
 # Setup Kubernetes and Docker w/ Express App
+I received an email stating this application will be the mongo db test instance. I was goign to set up a relational DB (postgres), but after reading the email I think we should keep with mongoDB because that is what raven is currently running. 
+
 First you need to install home brew.
 - install kubectl with home brew
 - install minikube with home brew
 
 Dowload "sequel-pro" to mamnage your local Relational DB.
 
+## Setup hosts file
+- Set terminal all the way to the root ... example: `cd ../../../`
+- `$ cd etc`
+- `$ sudo nano hosts`
+
+Add 
+- 192.168.99.100     rtest.com
+
+Note : this IP address can be retrieved from `$ minikube ip`
+
+
+## Setup local DB - Mongodb
+Install mongo docker continer inside kubernetes pod. 
+- cd into `k8s\deployments` then run `$ kubectl create -f ./mongo.yml`
+
+ssh into kubernetes mongodb container : mongo-c59... may be different. run `kubectl get pods | grep 'mongo' to get your mongo pod name
+- $ `kubectl exec -it mongo-c596cd56-c6462 -- /bin/bash`
+
+make 2 dbs ['news', 'sports']
+- news : collection : breakingNews
+- sports : collection : lakers
+
+THought - : I would like to sue mongoose for mongodb that way we can have schemas and a littl emroe control over documents.
 ## Setup local DB - Postgres
 Install postgresql with brew
 - $ brew install postgresql

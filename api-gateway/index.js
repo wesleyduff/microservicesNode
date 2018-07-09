@@ -22,14 +22,10 @@ app.all("/api/sports/*", (req, res) => {
 });
 
 app.get("/api/raven/:id", (req, res) => {
-    const id = parseInt(req.params.id)
+    console.log(req.headers);
+    const headers = req.headers.toString();
     res.json({
-        id: id,
-        ref: `RAVEN-${id}`,
-        amount: id * 100,
-        balance: (id * 100) - 10,
-        type: "RAVEN Stream",
-        raven: 'raven-123'
+        headers: headers
     })
 });
 
@@ -48,7 +44,7 @@ apiProxy.on('proxyReq', function(proxyReq, req, res, options) {
     res.set('X-Special-Header', 'baz');
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(chalk.green(`Listening on port : ${port} - server running`))

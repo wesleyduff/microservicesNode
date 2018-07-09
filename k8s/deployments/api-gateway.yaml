@@ -4,7 +4,6 @@ metadata:
   labels:
     run: api-gateway-svc
   name: api-gateway-svc
-  namespace: microservices
 spec:
   replicas: 3
   selector:
@@ -22,8 +21,8 @@ spec:
     spec:
       containers:
       - name: api-gateway-svc
-        image: node/api-gateway
-        imagePullPolicy: IfNotPresent
+        image: wesduff/microservices:v2
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
       dnsPolicy: ClusterFirst
@@ -35,16 +34,6 @@ metadata:
   labels:
     run: api-gateway-svc
   name: api-gateway-svc
-  namespace: microservices
-  annotations:
-    getambassador.io/config: |
-      ---
-      apiVersion: ambassador/v0
-      kind:  Mapping
-      name:  raven_mapping
-      prefix: /raven/
-      rewrite: /api/raven/
-      service: api-gateway-svc
 spec:
   selector:
     run: api-gateway-svc
@@ -53,4 +42,4 @@ spec:
     protocol: TCP
     targetPort: 8080
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer

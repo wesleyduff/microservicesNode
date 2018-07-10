@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: news-svc
-        image: node/news:vp2
+        image: node/news:vPostgresSQL
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3002

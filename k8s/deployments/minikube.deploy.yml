@@ -67,7 +67,7 @@ spec:
     spec:
       containers:
       - name: sports-svc
-        image: wesduff/sportssms:v1
+        image: wesduff/sportsms:vMongo
         imagePullPolicy: Always
         ports:
         - containerPort: 3001
@@ -113,7 +113,7 @@ spec:
     spec:
       containers:
       - name: news-svc
-        image: wesduff/newsms:v1
+        image: wesduff/newsms:vPostgresSQL
         imagePullPolicy: Always
         ports:
         - containerPort: 3002

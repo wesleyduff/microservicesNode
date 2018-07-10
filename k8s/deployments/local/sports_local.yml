@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: sports-svc
-        image: node/sports:vp5
+        image: node/sports:vMongoDb
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3001

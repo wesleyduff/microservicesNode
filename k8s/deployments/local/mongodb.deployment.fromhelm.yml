@@ -1,0 +1,193 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: 2018-07-10T02:24:26Z
+  generation: 1
+  labels:
+    app: mongodb
+    chart: mongodb-3.0.3
+    heritage: Tiller
+    release: joking-seal
+  name: joking-seal-mongodb
+  namespace: default
+  resourceVersion: "7347"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/joking-seal-mongodb
+  uid: 5d923acb-83e8-11e8-9b65-080027cac4d0
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mongodb
+      release: joking-seal
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mongodb
+        release: joking-seal
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mongodb-root-password
+              name: joking-seal-mongodb
+        - name: MONGODB_USERNAME
+        - name: MONGODB_DATABASE
+        - name: MONGODB_EXTRA_FLAGS
+        image: docker.io/bitnami/mongodb:3.6.5-debian-9
+        imagePullPolicy: Always
+        livenessProbe:
+          exec:
+            command:
+            - mongo
+            - --eval
+            - db.adminCommand('ping')
+          failureThreshold: 6
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: joking-seal-mongodb
+        ports:
+        - containerPort: 27017
+          name: mongodb
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - mongo
+            - --eval
+            - db.adminCommand('ping')
+          failureThreshold: 6
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /bitnami/mongodb
+          name: data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: joking-seal-mongodb
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2018-07-10T02:24:26Z
+    lastUpdateTime: 2018-07-10T02:24:26Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2018-07-10T02:24:26Z
+    lastUpdateTime: 2018-07-10T02:27:30Z
+    message: ReplicaSet "joking-seal-mongodb-f4748bc96" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: 2018-07-10T02:24:26Z
+  labels:
+    app: mongodb
+    chart: mongodb-3.0.3
+    heritage: Tiller
+    release: joking-seal
+  name: joking-seal-mongodb
+  namespace: default
+  resourceVersion: "783"
+  selfLink: /api/v1/namespaces/default/services/joking-seal-mongodb
+  uid: 5d915f76-83e8-11e8-9b65-080027cac4d0
+spec:
+  clusterIP: 10.104.103.54
+  ports:
+  - name: mongodb
+    port: 27017
+    protocol: TCP
+    targetPort: mongodb
+  selector:
+    app: mongodb
+    release: joking-seal
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    control-plane.alpha.kubernetes.io/leader: '{"holderIdentity":"e58f0b8d-83e7-11e8-8502-080027cac4d0","leaseDurationSeconds":15,"acquireTime":"2018-07-10T02:24:26Z","renewTime":"2018-07-10T02:24:56Z","leaderTransitions":0}'
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+    volume.beta.kubernetes.io/storage-provisioner: k8s.io/minikube-hostpath
+  creationTimestamp: 2018-07-10T02:24:26Z
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: mongodb
+    chart: mongodb-3.0.3
+    heritage: Tiller
+    release: joking-seal
+  name: joking-seal-mongodb
+  namespace: default
+  resourceVersion: "881"
+  selfLink: /api/v1/namespaces/default/persistentvolumeclaims/joking-seal-mongodb
+  uid: 5d8fc205-83e8-11e8-9b65-080027cac4d0
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: standard
+  volumeName: pvc-5d8fc205-83e8-11e8-9b65-080027cac4d0
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  phase: Bound
+---
+apiVersion: v1
+data:
+  mongodb-root-password: d2dLTjBZWDc5VA==
+kind: Secret
+metadata:
+  creationTimestamp: 2018-07-10T02:24:26Z
+  labels:
+    app: mongodb
+    chart: mongodb-3.0.3
+    heritage: Tiller
+    release: joking-seal
+  name: joking-seal-mongodb
+  namespace: default
+  resourceVersion: "779"
+  selfLink: /api/v1/namespaces/default/secrets/joking-seal-mongodb
+  uid: 5d8f4155-83e8-11e8-9b65-080027cac4d0
+type: Opaque

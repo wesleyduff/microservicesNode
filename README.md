@@ -58,7 +58,7 @@ ssh into kubernetes mongodb container : mongo-c59... may be different. run `kube
 - $ `kubectl exec -it mongo-c596cd56-c6462 -- /bin/bash`
 
 make 2 dbs ['news', 'sports']
-- news : collection : breakingNews
+- doc : collection : breakingNews
 - sports : collection : lakers
 
 THought - : I would like to sue mongoose for mongodb that way we can have schemas and a littl emroe control over documents.

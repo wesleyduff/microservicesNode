@@ -1,2 +1,2 @@
-helm install stable/postgresql
-helm install stable/mongodb
+helm install stable/postgresql --name postgres
+helm install stable/mongodb --name mongo

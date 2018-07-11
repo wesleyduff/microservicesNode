@@ -1,0 +1,125 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: test-harness-svc
+  name: test-harness-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: test-harness-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: test-harness-svc
+    spec:
+      containers:
+      - name: rds-svc
+        image: local/rdsms:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+      - name: doc-svc
+        image: local/docms:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3001
+      - name: push-svc
+        image: local/pushms:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3002
+      - name: internal-svc
+        image: local/internalms:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3003
+      - name: vault-svc
+        image: local/vaultms:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3004
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: test-harness-svc
+  name: test-harness-svc
+spec:
+  selector:
+    run: test-harness-svc
+  ports:
+  - port: 3000
+    name: rds-svc
+    protocol: TCP
+    targetPort: 3000
+  - port: 3001
+    name: doc-svc
+    protocol: TCP
+    targetPort: 3001
+  - port: 3002
+    name: push-svc
+    protocol: TCP
+    targetPort: 3002
+  - port: 3003
+    name: internal-svc
+    protocol: TCP
+    targetPort: 3003
+  - port: 3004
+    name: vault-svc
+    protocol: TCP
+    targetPort: 3004
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: expressproxy-svc
+  name: expressproxy-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: expressproxy-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: expressproxy-svc
+    spec:
+      containers:
+      - name: expressproxy-svc
+        image: local/expressproxy:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: expressproxy-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 31112
+  selector:
+    run: expressproxy-svc

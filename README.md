@@ -7,12 +7,20 @@ First you need to install home brew.
 - install helm with home brew
 
 ## steps : for local
-- `$ minikube start`
+- `$ minikube start`  
+Wait for minikube to start
+
+Once start open the minikube dashboard
+- `$ minikube dashboard`
+
+We need all of our docker containers to live inside our minikube environment. Run this to set this up
 - `$ eval $(minikube docker-env)`
 
 Rest of the steps will be inside the **deployments** folder
 - `$ sh docker_build_script.sh`
-- `$ helm init'`
+
+You will need to run the below code to get "tiller" installed on your minikube
+- `$ helm init'`  
 
 Wait for tiller. Check the kubernetes pods
 - `$ kubectl get pods --all-namespaces | grep "tiller"`  
@@ -20,8 +28,6 @@ You should see 1/1 Running when it is ready ... Then proceed
 
 - `$ sh setupDbs.sh`  
 Make sure you view the terminal and copy the data that was displayed in the terminal for further implementation inside **"sports"** and **"news"**   
- 1. You will need to copy the service name for the PostgresSQL Kubernetes Service
- 2. Open up the *news* express app and change the connection string to point to you kubernetes service. The port should stay the same.
  3. You will need to run : `$ PGPASSWORD=$(kubectl get secret --namespace default <the name of your postgresSQL kubernetes service> -o jsonpath="{.data.postgres-password}" | base64 --decode; echo) && echo $PGPASSWORD`
  4. Take the password that is shown in your terminal and update the connection string with the new password.  
    **A**. it would be best to put this password in an environment variable so you do not check this into source control.  
@@ -31,11 +37,11 @@ Make sure you view the terminal and copy the data that was displayed in the term
     **B**. update connection string in sports with the new password and your monogodb kubernetes service name.
 
 Proceed...
-- `$ kubectl apply -f ./minikube.deploy.yml`  
-This may take a while, this command downloads all of the docker containers from the internet. You can type in `$ kubectl get pods` to make sure all are running and not still in creation.
+- `$ kubectl apply -f ./local/local_deploy.yaml`  
+The deployment is using the docker containers from your local environment. 
 
 Next, type this in your terminal and the browser will go to the main page
-- `$ minikube service api-gateway`
+- `$ minikube service expressproxy-svc`
 
 
 

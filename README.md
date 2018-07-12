@@ -1,12 +1,15 @@
 # Setup Kubernetes and Docker w/ Express App
 I received an email stating this application will be the mongo db test instance. I was goign to set up a relational DB (postgres), but after reading the email I think we should keep with mongoDB because that is what raven is currently running. 
 
-First you need to install home brew.
+## First : Install VirtualBox
+We need a virtual environment for our kubernetes minikube. I highly suggest Virtualbox because it is free and works pretty well.
+
+## Install home brew then install these apps
 - install kubectl with home brew
 - install minikube with home brew
 - install helm with home brew
 
-## steps : for local
+## Steps : for local environment setup
 - `$ minikube start`  
 Wait for minikube to start
 
@@ -51,52 +54,16 @@ Next, type this in your terminal and the browser will go to the main page
 - `$ sudo nano hosts`
 
 Add 
-- 192.168.99.100     rtest.com
+- 192.168.99.100  rdstest.com
+- 192.168.99.100  doctest.com
+- 192.168.99.100  pushString.com
+- 192.168.99.100  pushDoc.com
+- 192.168.99.100  internal.com
 
 Note : this IP address can be retrieved from `$ minikube ip`
 
 
-## Setup local DB - Mongodb
-Install mongo docker continer inside kubernetes pod. 
-- cd into `k8s\deployments` then run `$ kubectl create -f ./mongo.yml`
-
-ssh into kubernetes mongodb container : mongo-c59... may be different. run `kubectl get pods | grep 'mongo' to get your mongo pod name
-- $ `kubectl exec -it mongo-c596cd56-c6462 -- /bin/bash`
-
-make 2 dbs ['news', 'sports']
-- doc : collection : breakingNews
-- sports : collection : lakers
-
-THought - : I would like to sue mongoose for mongodb that way we can have schemas and a littl emroe control over documents.
-## Setup local DB - Postgres
-[tutoeial](https://medium.com/@nicdoye/installing-postgresql-via-helm-237e026453b1)
-
-**prerequisite** : without helm ... deploying an app like postgresSQL could cause a lot of errors unless you do it right. My last job (healthgrades) ueses **helm** to doploy their kubernetes pods
-- `$ brew install kubernetes-helm`
-
-### Setup DB
-Pull docker images, build pods 
-- `$ helm install stable/postgresql`
-- `$ helm install stable/mongodb`
-
-**NOTE: both mongodb and postgresSQL are handled the same**
-Next we need to get the password for our DB : You will be told a magic command to get the DB Password. Something like below
-- `$ PGPASSWORD=$(kubectl get secret \
-      --namespace default \
-      agile-shrimp-postgresql \
-      -o jsonpath="{.data.postgres-password}" \
-      | base64 --decode; echo)`
-- `$ echo $PGPASSWORD` // This gives you your password. Just copy this and use to connect to the kubernetes instance.
-
-Connect to kubernetes postgresSQL pod in Express App. I am using npm module pg-promise, but you can use anything.
-
-`var pgp = require('pg-promise')();`  
-`const db = pgp('postgres://<your user>:<your password>@lazy-jackal-postgresql.default.svc.cluster.local:5432/news')` // make sure you use the name provided by the helm install. Mine is lazy-jackal. 
-
-## Install VirtualBox
-We need a virtual environment for our kubernetes minikube. I highly suggest Virtualbox because it is free and works pretty well.
-
-
+# Notes below - just to help out
 ### Commands :
 - $ minikube start
 

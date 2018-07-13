@@ -168,3 +168,5 @@ First : add kubernetes to your bash_profile OR change the below commands from "k
 
 2. If you just want to do this a few times, run this : 
 - `$ k delete service test-harness-svc && k delete service expressproxy-svc && k delete deployment test-harness-svc && k delete deployment expressproxy-svc`
+
+![alt text](./test-harness_DFD_v1.png "DFD v1")

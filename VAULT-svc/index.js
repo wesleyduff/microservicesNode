@@ -17,7 +17,7 @@ app.get("/api/vault/:id", (req, res) => {
     })
 });
 
-const port = process.env.PORT || 3004;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(chalk.green(`Listening for news on port : ${port} - server running`))

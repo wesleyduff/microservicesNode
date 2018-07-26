@@ -63,7 +63,7 @@ app.get("/api/push/:id", (req, res) => {
     })
 });
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(chalk.green(`Listening for news on port : ${port} - server running`))

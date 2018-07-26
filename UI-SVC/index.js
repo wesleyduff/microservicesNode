@@ -18,29 +18,11 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    res.send('Base proxy app for raven testing')
-});
-
-app.all("/api/*", (req, res) => {
-    apiProxy.web(req, res, {target});
+    res.send(`UI Service : host called is ${host} and the target is ${target}`)
 });
 
 
-// To modify the proxy connection before data is sent, you can listen
-// for the 'proxyReq' event. When the event is fired, you will receive
-// the following arguments:
-// (http.ClientRequest proxyReq, http.IncomingMessage req,
-//  http.ServerResponse res, Object options). This mechanism is useful when
-// you need to modify the proxy request before the proxy connection
-// is made to the target.
-//
-apiProxy.on('proxyReq', function(proxyReq, req, res, options) {
-    console.log('setting header from proxy')
-    proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
-    res.set('X-Special-Header', 'baz');
-});
-
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(chalk.green(`Listening on port : ${port} - server running`))

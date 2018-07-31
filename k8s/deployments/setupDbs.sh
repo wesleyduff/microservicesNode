@@ -1,2 +1,2 @@
-helm install stable/postgresql --name postgres
-helm install stable/mongodb --name mongo
+helm install stable/postgresql --name postgres --namespace testharness
+helm install stable/mongodb --name mongo --namespace testharness

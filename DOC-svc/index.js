@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://root:8WgiirOZl7@mongo-mongodb.default.svc.cluster.local:27017'
 // Database Name
-const dbName = 'doc';
+const databaseName = 'doc';
 
 app.get('/', (req, res) => {
     res.send('Raven - DOC - Document Base Injest');
@@ -16,7 +16,7 @@ app.get('/api/doc/healthcheck', (req, res) => {
                 err
             })
         } else {
-            const db = client.db(dbName);
+            const db = client.db(databaseName);
             db.collection('lakers').find().toArray((error, result) =>{
                 if(error) {
                     console.log(error);

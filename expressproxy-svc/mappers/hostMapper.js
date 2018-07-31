@@ -1,15 +1,18 @@
-const ipAddresses = require('../constants');
+const {
+    apiController,
+    weatherController,
+    trafficController
+} = require('../controllers');
+
 const hosts = [
-    {host: "rdstest.com", target: `http://${ipAddresses.RDSIp}`},
-    {host: "doctest.com", target: `http://${ipAddresses.DOCIp}`},
-    {host: "pushstring.com", target: `http://${ipAddresses.PUSHIp}`},
-    {host: "pushdoc.com", target: `http://${ipAddresses.PUSHIp}`},
-    {host: "internal.com", target: `http://${ipAddresses.INTERNALIp}`}
+    { host: 'localhost' ,   controller: apiController },
+    { host: 'weather'   ,   controller: weatherController },
+    { host: 'traffic'   ,   controller: trafficController }
 ]
 module.exports = (host) => {
     const foundHost = hosts.find(item => item.host.toLowerCase() === host.toLowerCase());
     if(!foundHost){
-        return hosts[2];
+        return hosts[0];
     } else {
         return foundHost;
     }

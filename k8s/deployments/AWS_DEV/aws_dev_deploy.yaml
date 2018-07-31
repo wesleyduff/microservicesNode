@@ -6,7 +6,7 @@ metadata:
     run: expressproxy-svc
   name: expressproxy-svc
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       run: expressproxy-svc
@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - name: expressproxy-svc
-        image: express:test1
-        imagePullPolicy: IfNotPresent
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:v4
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
       restartPolicy: Always

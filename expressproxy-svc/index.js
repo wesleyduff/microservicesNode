@@ -1,44 +1,80 @@
-const app = require('express')();
-const chalk = require('chalk');
-const httpProxy = require('http-proxy');
-const apiProxy = httpProxy.createProxyServer();
-const ipAddresses = require('./constants');
-const hostMapper = require('./mappers/hostMapper');
-const { getHost } = require('./helpers')
+const   app            = require('express')(),
+        chalk          = require('chalk'),
+        hostMapper     = require('./mappers/hostMapper'),
+        { getHost }    = require('./helpers'),
+        MongoClient    = require('mongodb').MongoClient,
+        PORT           = process.env.PORT || 27017,
+        MONGO_DNS = process.env.MONGO_DNS || '127.0.0.1',
+        MongoPassword  = process.env.MONGO_PASSWORD || '8c9TCT0Zts',//where local will be your local mongo password
+        url            = `mongodb://root:${MongoPassword}@${MONGO_DNS}:${PORT}`, //Ports should all be the same
+        databaseName   = 'doc',
+        pgp = require('pg-promise')(),
+        pgPort = process.env.PG_PORT || '5432',
+        pgPassword = process.env.PG_PASSWORD || 'N5xa0K8tyN',
+        pgDatabase = pgp(`postgres://postgres:${pgPassword}@postgres-postgresql.default.svc.cluster.local:${pgPort}/test`)
 
-let target = null,
-    host = null;
+
+let mongoClient = null,
+    mongoDatabase = null;
 
 
+const main = require('./routes/index');
+
+MongoClient.connect(url, (err, client) => {
+    if (err) {
+        console.log('mongo db connect issue -> ', err)
+    } else {
+        mongoDatabase = client.db(databaseName);
+        mongoClient = client;
+
+
+       // client.close(); todo:// how will we close this;
+    }
+});
+
+/**
+ * Middleware to catch host name
+ */
 app.use((req, res, next) => {
-    host = getHost(req);
-    target = hostMapper(host).target;
-    console.log('---> target middleware: ', target)
+    const host = getHost(req);
+    const controller = hostMapper(host).controller;
+    req.host = host;
+    req.controller = controller;
+
+    req.mongoDatabase = mongoDatabase;
+    req.pgDatabase = pgDatabase;
+    req.mongoClient = mongoClient;
     next();
 })
 
-app.get('/', (req, res) => {
-    res.send('Base proxy app for raven testing')
-});
-
-app.all("/api/*", (req, res) => {
-    apiProxy.web(req, res, {target});
-});
+/**
+ * Set Routes
+ */
+app.use('/', main);
 
 
-// To modify the proxy connection before data is sent, you can listen
-// for the 'proxyReq' event. When the event is fired, you will receive
-// the following arguments:
-// (http.ClientRequest proxyReq, http.IncomingMessage req,
-//  http.ServerResponse res, Object options). This mechanism is useful when
-// you need to modify the proxy request before the proxy connection
-// is made to the target.
-//
-apiProxy.on('proxyReq', function(proxyReq, req, res, options) {
-    console.log('setting header from proxy')
-    proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
-    res.set('X-Special-Header', 'baz');
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.json({
+            error: {
+                message: err.message,
+                error: err
+            }
+        });
+    });
+}
+
 
 const port = process.env.PORT || 8080;
 

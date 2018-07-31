@@ -1,18 +1,18 @@
 const app = require('express')();
 const chalk = require('chalk');
 var pgp = require('pg-promise')();
-const db = pgp('postgres://postgres:N5xa0K8tyN@postgres-postgresql.default.svc.cluster.local:5432/push')
+const database = pgp('postgres://postgres:N5xa0K8tyN@postgres-postgresql.default.svc.cluster.local:5432/push')
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://root:8WgiirOZl7@mongo-mongodb.default.svc.cluster.local:27017'
 // Database Name
-const dbName = 'push';
+const databaseName = 'push';
 
 app.get('/', (req, res) => {
     res.send('Raven - PUSH - Relational / Document Injest');
 });
 
 app.get('/api/push/healthcheck/postgres', (req, res) => {
-    db.any('SELECT * FROM test')
+    database.any('SELECT * FROM test')
         .then(function (data) {
             const result = JSON.stringify(data[0]);
             res.send(result)
@@ -30,7 +30,7 @@ app.get('/api/push/healthcheck/mongo', (req, res) => {
                 err
             })
         } else {
-            const db = client.db(dbName);
+            const db = client.db(databaseName);
             db.collection('lakers').find().toArray((error, result) =>{
                 if(error) {
                     console.log(error);

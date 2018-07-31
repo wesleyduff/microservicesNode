@@ -78,6 +78,6 @@ if (app.get('env') === 'development') {
 
 const port = process.env.PORT || 8080;
 
-app.listen(port, () => {
+app.listen(8080,() => {
     console.log(chalk.green(`Listening on port : ${port} - server running`))
 })

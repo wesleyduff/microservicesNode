@@ -7,12 +7,8 @@ const   app            = require('express')(),
         MONGO_DNS = process.env.MONGO_DNS || '127.0.0.1',
         MongoPassword  = process.env.MONGO_PASSWORD || '8c9TCT0Zts',//where local will be your local mongo password
         url            = `mongodb://root:${MongoPassword}@${MONGO_DNS}:${PORT}`, //Ports should all be the same
-        databaseName   = 'doc',
-        pgp = require('pg-promise')(),
-        pgPort = process.env.PG_PORT || '5432',
-        pgPassword = process.env.PG_PASSWORD || 'N5xa0K8tyN',
-        pgDatabase = pgp(`postgres://postgres:${pgPassword}@postgres-postgresql.default.svc.cluster.local:${pgPort}/test`)
-
+        databaseName   = 'doc';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 let mongoClient = null,
     mongoDatabase = null;
@@ -37,12 +33,13 @@ MongoClient.connect(url, (err, client) => {
  */
 app.use((req, res, next) => {
     const host = getHost(req);
-    const controller = hostMapper(host).controller;
+    const controllerData = hostMapper(host);
     req.host = host;
-    req.controller = controller;
+    req.controller = controllerData.controller;
+    req.ingestURI = controllerData.ingestUri;
+    req.returnType = controllerData.type
 
     req.mongoDatabase = mongoDatabase;
-    req.pgDatabase = pgDatabase;
     req.mongoClient = mongoClient;
     next();
 })

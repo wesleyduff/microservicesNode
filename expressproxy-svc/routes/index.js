@@ -9,7 +9,13 @@ router.get('/healthCheck', (req, res) => {
 /**
  * POST
  */
+router.post('/', (req, res) => {
+    return eval(req.controller).post(req, res);
+})
 router.post('/:data', (req, res) => {
+    return eval(req.controller).post(req, res);
+})
+router.post('*', (req, res) => {
     return eval(req.controller).post(req, res);
 })
 

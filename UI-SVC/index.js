@@ -52,5 +52,5 @@ if (app.get('env') === 'development') {
 }
 
 app.listen(3000,() => {
-    console.log(chalk.green(`Listening on port : 3001 - server running`))
+    console.log(chalk.green(`Listening on port : 3000 - server running`))
 })

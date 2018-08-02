@@ -2,10 +2,14 @@ import {
     rootController,
 } from '../controllers/index';
 
+const   EXPRESSPROXY_PORT   =   process.env.EXPRESSPROXY_PORT   ||  '8080',
+        //EXPRESSPROXY_DNS    =   process.env.EXPRESSPROXY_DNS    ||  'http://testharness.com';
+        EXPRESSPROXY_DNS = 'https://expressproxy-svc';
+
 const hosts = [
-    { hook: 'weather',  host: 'wsidata.weather.com',      type: 'JSON',   controller: rootController(),   ingestURI: 'http://testharness.com:8080/201303/en-us/37082592/weather.json'},
-    { hook: 'traffic',  host: 'wsidata.weather.com',      type: 'JSON',   controller: rootController(),   ingestURI: 'http://testharness.com:8080/201303/en-us/37082592/traffic.json'},
-    { hook: 'lottery',  host: 'lotterynumbersxml.com',    type: 'XML',    controller: rootController(),   ingestURI: 'http://testharness.com:8080/'}
+    { hook: 'weather',  host: 'wsidata.weather.com',      type: 'JSON',   controller: rootController(),   ingestURI: `${EXPRESSPROXY_DNS}:${EXPRESSPROXY_PORT}/201303/en-us/37082592/weather.json`},
+    { hook: 'traffic',  host: 'wsidata.weather.com',      type: 'JSON',   controller: rootController(),   ingestURI: `${EXPRESSPROXY_DNS}:${EXPRESSPROXY_PORT}/201303/en-us/37082592/traffic.json`},
+    { hook: 'lottery',  host: 'lotterynumbersxml.com',    type: 'XML',    controller: rootController(),   ingestURI: `${EXPRESSPROXY_DNS}:${EXPRESSPROXY_PORT}/`}
  ];
 
 export default (hook) => {

@@ -4,7 +4,7 @@ import {
 
 const   EXPRESSPROXY_PORT   =   process.env.EXPRESSPROXY_PORT   ||  '8080',
         //EXPRESSPROXY_DNS    =   process.env.EXPRESSPROXY_DNS    ||  'http://testharness.com';
-        EXPRESSPROXY_DNS = 'https://expressproxy-svc';
+        EXPRESSPROXY_DNS = 'https://expressproxy-svc.testharness.svc.cluster.local';
 
 const hosts = [
     { hook: 'weather',  host: 'wsidata.weather.com',      type: 'JSON',   controller: rootController(),   ingestURI: `${EXPRESSPROXY_DNS}:${EXPRESSPROXY_PORT}/201303/en-us/37082592/weather.json`},

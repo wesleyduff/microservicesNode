@@ -6,7 +6,7 @@ metadata:
     run: expressproxy-svc
   name: expressproxy-svc
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       run: expressproxy-svc
@@ -17,10 +17,15 @@ spec:
     spec:
       containers:
       - name: expressproxy-svc
-        image: express:test1
+        image: localexpress
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
+      - name: expressproxy-ui
+        image: localUI
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
       restartPolicy: Always
 ---
 apiVersion: extensions/v1beta1
@@ -36,7 +41,7 @@ spec:
       paths:
       - backend:
           serviceName: expressproxy-svc
-          servicePort: 8080
+          servicePort: 3000
         path: /
 ---
 apiVersion: v1
@@ -47,9 +52,13 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8080
-      protocol: TCP
-      targetPort: 8080
-      name: web
+  - port: 3000
+    name: web
+    protocol: TCP
+    targetPort: 3000
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    name: api
   selector:
     run: expressproxy-svc

@@ -9,7 +9,6 @@ const   app            = require('express')(),
         MongoPassword  = process.env.MONGO_PASSWORD || '8c9TCT0Zts',//where local will be your local mongo password
         url            = `mongodb://root:${MongoPassword}@${MONGO_DNS}:${MONGO_PORT}`, //Ports should all be the same
         databaseName   = 'doc';
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 let mongoClient = null,
     mongoDatabase = null;
@@ -36,6 +35,7 @@ app.use(cors());
 app.use((req, res, next) => {
     const host = getHost(req);
     const controllerData = hostMapper(host);
+    console.log(`----- host mapper mapped : ${controllerData.ingestUri} : ${controllerData.type} : ${controllerData.table}`)
     req.host = host;
     req.controller = controllerData.controller;
     req.ingestURI = controllerData.ingestUri;

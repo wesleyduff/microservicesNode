@@ -18,7 +18,7 @@ export default () => {
                     .catch(err => {
                         reject( {
                             err,
-                            response: '-- error fetching ingest point : weather bug v1 : zone id'
+                            response: '-- error fetching ingest point from other pod'
                         } );
                     });
             })

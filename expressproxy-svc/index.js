@@ -3,10 +3,11 @@ const   app            = require('express')(),
         hostMapper     = require('./mappers/hostMapper'),
         { getHost }    = require('./helpers'),
         MongoClient    = require('mongodb').MongoClient,
-        PORT           = process.env.PORT || 27017,
-        MONGO_DNS = process.env.MONGO_DNS || '127.0.0.1',
+        cors           = require('cors'),
+        MONGO_PORT     = process.env.MONGO_PORT || 27017,
+        MONGO_DNS      = process.env.MONGO_DNS || '127.0.0.1',
         MongoPassword  = process.env.MONGO_PASSWORD || '8c9TCT0Zts',//where local will be your local mongo password
-        url            = `mongodb://root:${MongoPassword}@${MONGO_DNS}:${PORT}`, //Ports should all be the same
+        url            = `mongodb://root:${MongoPassword}@${MONGO_DNS}:${MONGO_PORT}`, //Ports should all be the same
         databaseName   = 'doc';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -14,7 +15,7 @@ let mongoClient = null,
     mongoDatabase = null;
 
 
-const main = require('./routes/index');
+const RestAPI = require('./routes/index');
 
 MongoClient.connect(url, (err, client) => {
     if (err) {
@@ -31,14 +32,15 @@ MongoClient.connect(url, (err, client) => {
 /**
  * Middleware to catch host name
  */
+app.use(cors());
 app.use((req, res, next) => {
     const host = getHost(req);
     const controllerData = hostMapper(host);
     req.host = host;
     req.controller = controllerData.controller;
     req.ingestURI = controllerData.ingestUri;
-    req.returnType = controllerData.type
-
+    req.returnType = controllerData.type;
+    req.table = controllerData.table;
     req.mongoDatabase = mongoDatabase;
     req.mongoClient = mongoClient;
     next();
@@ -47,7 +49,7 @@ app.use((req, res, next) => {
 /**
  * Set Routes
  */
-app.use('/', main);
+app.use('/', RestAPI);
 
 
 
@@ -72,9 +74,6 @@ if (app.get('env') === 'development') {
     });
 }
 
-
-const port = process.env.PORT || 8080;
-
 app.listen(8080,() => {
-    console.log(chalk.green(`Listening on port : ${port} - server running`))
+    console.log(chalk.green(`Listening on port : 8080 - server running`))
 })

@@ -1,0 +1,38 @@
+header {
+    margin-bottom:30px;
+}
+
+input[type="submit"]{
+    width:100%;
+}
+
+.checkbox {
+
+}
+
+.checkbox--container {
+    border:1px solid #CCC;
+    padding:20px;
+}
+
+.checkbox i{
+    border: 4px solid black;
+    border-radius: 13px;
+    padding: 9px;
+    background-color: #CCC;
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+
+.checkbox i.bad {
+    background-color:red;
+}
+
+.checkbox i.good {
+    background-color:green;
+}
+
+.checkbox.disabled i{
+    background-color:#CCC;
+}

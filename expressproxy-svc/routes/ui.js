@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var express = require('express');
+var router = express.Router();
+
 
 router.get('/healthCheck', (req, res) => {
     return eval(req.controller).getIndex(req, res);
@@ -9,6 +12,12 @@ router.get('/healthCheck', (req, res) => {
 /**
  * POST
  */
+router.post('/', (req, res) => {
+    return eval(req.controller).post(req, res);
+})
+router.post('/:data', (req, res) => {
+    return eval(req.controller).post(req, res);
+})
 router.post('*', (req, res) => {
     return eval(req.controller).post(req, res);
 })
@@ -16,7 +25,10 @@ router.post('*', (req, res) => {
 /**
  * GET
  */
-router.get('*', (req, res) => {
+router.get('', (req, res) => {
+    return eval(req.controller).getAll(req, res);
+})
+router.get('/:data', (req, res) => {
     return eval(req.controller).get(req, res);
 })
 /**

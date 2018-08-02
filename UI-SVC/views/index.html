@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+
+<header>
+    Populate Database
+</header>
+<div class="populateDatabase--container">
+    <div class="row" data-hook="weather">
+        <div class="col-xs-3 col-md-1">
+            <button class="btn-primary info" onClick="">execute</button>
+        </div>
+        <div class="col-xs-6 col-md-9">
+            Populate Weather
+        </div>
+        <div class="col-xs-3 col-md-2 checkbox disabled">
+            <i class="bad"></i>
+        </div>
+    </div>
+
+    <div class="row" data-hook="traffic">
+        <div class="col-xs-3 col-md-1">
+            <button class="btn-primary info" onClick="">execute</button>
+        </div>
+        <div class="col-xs-6 col-md-9">
+            Populate Traffic
+        </div>
+        <div class="col-xs-3 col-md-2 checkbox disabled">
+            <i class="bad"></i>
+        </div>
+    </div>
+
+    <div class="row" data-hook="lottery">
+        <div class="col-xs-3 col-md-1">
+            <button class="btn-primary info" onClick="">execute</button>
+        </div>
+        <div class="col-xs-6 col-md-9">
+            Populate Lottery
+        </div>
+        <div class="col-xs-3 col-md-2 checkbox disabled">
+            <i class="bad"></i>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}

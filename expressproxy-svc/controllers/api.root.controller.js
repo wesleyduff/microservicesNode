@@ -4,25 +4,25 @@ const   request             =   require('request'),
     pgp                     =   require('pg-promise')(),
     pgPort                  =   process.env.PG_PORT || '5432',
     pgPassword              =   process.env.PG_PASSWORD || 'N5xa0K8tyN',
-    //pgDNS                 =   process.env.PG_DNS || '127.0.0.1',
-    pgDNS                   =   '127.0.0.1',
+    pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
     pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:${pgPort}/testharness`)
 
 
 exports.post = (req, res) => {
+    console.log(`ingestURL: ${req.ingestURI}, : table: ${req.table}, : host: ${req.host}`);
     request(req.ingestURI, (error, response, body) => {
         if(error){
             res.json({
-                error,
-                response: '-- error fetching ingest point : lottery'
+                error
             })
             return;
         }
 
-        const encodedString = encode(body);
-        pgDatabase.none('INSERT INTO lottery (data, title) VALUES($1, $2)', [ encodedString, `Lottery ingest from ${req.host}`])
+
+        const encodedString = encode(body, req.type);
+        pgDatabase.none(`INSERT INTO ${req.table} (data, title) VALUES($1, $2)`, [ encodedString, `${req.table} ingest from ${req.host}`])
             .then(insertDataResponse => {
-                pgDatabase.any('SELECT * FROM weather')
+                pgDatabase.any(`SELECT * FROM ${req.table}`)
                     .then(function (resultFromGet) {
                         let returnData = { data: []};
                         resultFromGet.forEach(item => {
@@ -66,7 +66,7 @@ exports.patch = (req, res) => {
 }
 
 exports.get = (req, res) => {
-    pgDatabase.any('SELECT * FROM weather')
+    pgDatabase.any(`SELECT * FROM ${req.table}`)
         .then(function (resultFromGet) {
             let returnData = { data: []};
             resultFromGet.forEach(item => {

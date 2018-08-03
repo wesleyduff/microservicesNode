@@ -1,15 +1,16 @@
 const   request             =   require('request'),
-    ObjectID                =   require('mongodb').ObjectID,
     { encode, decode }      =   require('../helpers'),
     pgp                     =   require('pg-promise')(),
     pgPort                  =   process.env.PG_PORT || '5432',
-    pgPassword              =   process.env.PG_PASSWORD || 'N5xa0K8tyN',
-    pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
-    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:${pgPort}/testharness`)
+    pgPassword              =   process.env.PG_PASSWORD || 'OWPuQDQTJC',
+    //pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
+    pgDNS                   =   process.env.NODE_ENV === 'dev' ? process.env.PG_DNS : '127.0.0.1',
+    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness`);
+
 
 
 exports.post = (req, res) => {
-    console.log(`ingestURL: ${req.ingestURI}, : table: ${req.table}, : host: ${req.host}`);
+    console.log(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness ::: api root controller ----> ingestURL: ${req.ingestURI}, : table: ${req.table}, : host: ${req.host}`);
     request(req.ingestURI, (error, response, body) => {
         if(error){
             res.json({

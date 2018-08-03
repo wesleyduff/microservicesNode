@@ -3,6 +3,7 @@ const   app            = require('express')(),
         hostMapper     = require('./mappers/hostMapper'),
         { getHost, getOptions }    = require('./helpers'),
         MongoClient    = require('mongodb').MongoClient,
+    cors = require('cors'),
         MONGO_PORT     = process.env.MONGO_PORT || 27017,
         MONGO_DNS      = process.env.MONGO_DNS || '127.0.0.1',
         MongoPassword  = process.env.MONGO_PASSWORD || '8c9TCT0Zts',//where local will be your local mongo password
@@ -30,7 +31,7 @@ const RestAPI = require('./routes/index');
 /**
  * Middleware to catch host name
  */
-//app.use(cors());
+app.use(cors());
 app.use((req, res, next) => {
     const host = getHost(req);
     const options = getOptions(req);

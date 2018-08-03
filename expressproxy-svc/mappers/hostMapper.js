@@ -14,6 +14,7 @@ const hosts = [
 ];
 
 module.exports = (host) => {
+    console.log('---host ', host)
     const foundHost = hosts.find(item => item.host.toLowerCase() === host.toLowerCase());
     if(!foundHost){
         return hosts[0];

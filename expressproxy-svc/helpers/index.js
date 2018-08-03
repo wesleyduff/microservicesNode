@@ -11,7 +11,10 @@ if (typeof atob === 'undefined') {
     };
 }
 exportList.getHost = (req) => {
-    return req.headers['x-testharness-host'];
+    if(req.headers['x-testharness-host']){
+        return req.headers['x-testharness-host'];
+    }
+    return req.headers.host;
 }
 exportList.getOptions = (req) => {
     if(req.headers.hasOwnProperty('x-testharness-options')){

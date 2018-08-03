@@ -3,9 +3,9 @@ const   request             =   require('request'),
     { encode, decode }      =   require('../helpers'),
     pgp                     =   require('pg-promise')(),
     pgPort                  =   process.env.PG_PORT || '5432',
-    pgPassword              =   process.env.PG_PASSWORD || 'N5xa0K8tyN',
+    pgPassword              =   process.env.PG_PASSWORD || 'OWPuQDQTJC',
     pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
-    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:${pgPort}/testharness`)
+    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness`)
 
 
 exports.post = (req, res) => {

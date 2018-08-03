@@ -1,9 +1,8 @@
 const   app            = require('express')(),
         chalk          = require('chalk'),
         hostMapper     = require('./mappers/hostMapper'),
-        { getHost }    = require('./helpers'),
+        { getHost, getOptions }    = require('./helpers'),
         MongoClient    = require('mongodb').MongoClient,
-        cors           = require('cors'),
         MONGO_PORT     = process.env.MONGO_PORT || 27017,
         MONGO_DNS      = process.env.MONGO_DNS || '127.0.0.1',
         MongoPassword  = process.env.MONGO_PASSWORD || '8c9TCT0Zts',//where local will be your local mongo password
@@ -12,28 +11,29 @@ const   app            = require('express')(),
 
 let mongoClient = null,
     mongoDatabase = null;
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const RestAPI = require('./routes/index');
 
-MongoClient.connect(url, (err, client) => {
-    if (err) {
-        console.log('mongo db connect issue -> ', err)
-    } else {
-        mongoDatabase = client.db(databaseName);
-        mongoClient = client;
-
-
-       // client.close(); todo:// how will we close this;
-    }
-});
+// MongoClient.connect(url, (err, client) => {
+//     if (err) {
+//         console.log('mongo db connect issue -> ', err)
+//     } else {
+//         mongoDatabase = client.db(databaseName);
+//         mongoClient = client;
+//
+//
+//        // client.close(); todo:// how will we close this;
+//     }
+// });
 
 /**
  * Middleware to catch host name
  */
-app.use(cors());
+//app.use(cors());
 app.use((req, res, next) => {
     const host = getHost(req);
+    const options = getOptions(req);
     const controllerData = hostMapper(host);
     console.log(`----- host mapper mapped : ${controllerData.ingestUri} : ${controllerData.type} : ${controllerData.table}`)
     req.host = host;
@@ -43,6 +43,9 @@ app.use((req, res, next) => {
     req.table = controllerData.table;
     req.mongoDatabase = mongoDatabase;
     req.mongoClient = mongoClient;
+    if(options){
+        req.options = options;
+    }
     next();
 })
 

@@ -5,63 +5,33 @@ const   request             =   require('request'),
     pgPort                  =   process.env.PG_PORT || '5432',
     pgPassword              =   process.env.PG_PASSWORD || 'N5xa0K8tyN',
     pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
-    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:${pgPort}/testharness`),
-    trafficRegEx            =   /traffic.json/gm,
-    weatherRegEx            =   /weather.json/gm,
-    types                   =   {TRAFFIC: 'traffic',WEATHER: 'weather'}
+    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:${pgPort}/testharness`)
 
-let ingestURI               =   null,
-    type                    =   null,
-    table                   =   null;
-
-function getTypeOfRequest(req){
-    if(req.url.match(trafficRegEx)){
-        type = types.TRAFFIC;
-        table = types.TRAFFIC;
-    } else if(req.url.match(weatherRegEx)){
-        type = types.WEATHER;
-        table = types.WEATHER;
-    }
-
-    if(type !== null){
-        type === types.TRAFFIC ?
-            ingestURI = req.ingestURI.find(uri => uri.endpoint.match(trafficRegEx))
-            :
-            type === types.WEATHER ?
-                ingestURI = req.ingestURI.find(uri => uri.endpoint.match(weatherRegEx))
-                :
-                null
-    }
-}
 
 exports.post = (req, res) => {
-    getTypeOfRequest(req);
-
-    if(!ingestURI){
-        console.log('----failed finding ingestURI ---> api.wsiController.js')
-        return false;
+    if(req.options){
+        req.ingestURI = req.ingestURI +'/'+ req.options
     }
-
-
-    console.log(`ingestURL: ${ingestURI.endpoint}, : table: ${table}, : host: ${req.host}`);
-    request(ingestURI.endpoint, (error, response, body) => {
+    console.log(`ingestURL: ${req.ingestURI}, : table: ${req.table}, : host: ${req.host}`);
+    request(req.ingestURI, (error, response, body) => {
         if(error){
             res.json({
                 error
             })
             return;
-        } else if (response.statusCode === 500){
+        } else if(response.statusCode !== 200){
             res.json({
-                response: body
+                response,
+                error: 'status code was not 200'
             });
             return;
         }
 
 
         const encodedString = encode(body, req.type);
-        pgDatabase.none(`INSERT INTO ${table} (data, title) VALUES($1, $2)`, [ encodedString, `${table} ingest from ${req.host}`])
+        pgDatabase.none(`INSERT INTO ${req.table} (data, title) VALUES($1, $2)`, [ encodedString, `${req.table} ingest from ${req.host}`])
             .then(insertDataResponse => {
-                pgDatabase.any(`SELECT * FROM ${table}`)
+                pgDatabase.any(`SELECT * FROM ${req.table}`)
                     .then(function (resultFromGet) {
                         let returnData = { data: []};
                         resultFromGet.forEach(item => {
@@ -87,12 +57,6 @@ exports.post = (req, res) => {
 }
 
 exports.put = (req, res) => {
-    getTypeOfRequest(req);
-
-    if(!ingestURI){
-        console.log('----failed finding ingestURI ---> api.wsiController.js')
-        return false;
-    }
     res.json({
         response: {
             message: 'Base put functionality',
@@ -102,12 +66,6 @@ exports.put = (req, res) => {
 }
 
 exports.patch = (req, res) => {
-    getTypeOfRequest(req);
-
-    if(!ingestURI){
-        console.log('----failed finding ingestURI ---> api.wsiController.js')
-        return false;
-    }
     res.json({
         response: {
             message: 'Base patch functionality',
@@ -117,13 +75,7 @@ exports.patch = (req, res) => {
 }
 
 exports.get = (req, res) => {
-    getTypeOfRequest(req);
-
-    if(!ingestURI){
-        console.log('----failed finding ingestURI ---> api.wsiController.js')
-        return false;
-    }
-    pgDatabase.any(`SELECT * FROM ${table}`)
+    pgDatabase.any(`SELECT * FROM ${req.table}`)
         .then(function (resultFromGet) {
             let returnData = { data: []};
             resultFromGet.forEach(item => {
@@ -139,13 +91,6 @@ exports.get = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-    getTypeOfRequest(req);
-
-    if(!ingestURI){
-        console.log('----failed finding ingestURI ---> api.wsiController.js')
-        return false;
-    }
-
     res.json({
         response: {
             message: 'Base delete functionality',

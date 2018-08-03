@@ -13,6 +13,13 @@ if (typeof atob === 'undefined') {
 exportList.getHost = (req) => {
     return req.headers['x-testharness-host'];
 }
+exportList.getOptions = (req) => {
+    if(req.headers.hasOwnProperty('x-testharness-options')){
+        return req.headers['x-testharness-options'];
+    } else if(req.headers.hasOwnProperty('url')){
+        return req.headers.url;
+    }
+}
 exportList.encode = (data, type) => {
     if(typeof data === 'string'){
         return btoa(data);

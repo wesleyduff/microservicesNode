@@ -22,6 +22,11 @@ app.use(express.static('public'));
 var swig = require('swig');
 app.engine('html', swig.renderFile);
 
+app.use((req, res, next) => {
+    req.options = req.url;
+    next();
+})
+
 
 /**
  * Set Routes

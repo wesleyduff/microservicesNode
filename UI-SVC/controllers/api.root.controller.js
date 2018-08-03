@@ -1,9 +1,10 @@
 export default () => {
     return {
-        post: (host, ingestURI) => {
+        post: (host, ingestURI, options=null) => {
             return new Promise((resolve, reject) => {
                 const headers = new Headers();
                 headers.append('x-testharness-host', host);
+                headers.append('x-testharness-options', options)
                 headers.append('Content-Type', 'application/json')
                 fetch(ingestURI, {
                     method: 'POST',

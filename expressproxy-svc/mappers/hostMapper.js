@@ -1,14 +1,16 @@
 const {
     rootController,
-    wsiController
+    wsiController,
+    newsEventsController
 } = require('../controllers');
 
 const hosts = [
-    { host: 'wsidata.weather.com',          table: '?',         type: 'JSON',     controller: wsiController,             ingestUri: [
+    { host: 'wsidata.weather.com',      table: '?',         type: 'JSON',   controller: wsiController,              ingestUri: [
                                                                                                                                 {type: 'traffic', endpoint: 'https://wsidata.weather.com/201303/en-us/37082592/traffic.json'},
                                                                                                                                 {type: 'weather', endpoint: 'https://wsidata.weather.com/201303/en-us/37082592/weather.json'}
                                                                                                                                 ]},
-    { host: 'lotterynumbersxml.com',        table: 'lottery',   type: 'xml',      controller: rootController,            ingestUri: 'http://www.lotterynumbersxml.com/lotterydata/charter.com/jkhadg832/lottery_US_only.xml' },
+    { host: 'lotterynumbersxml.com',    table: 'lottery',   type: 'xml',    controller: rootController,             ingestUri: 'http://www.lotterynumbersxml.com/lotterydata/charter.com/jkhadg832/lottery_US_only.xml' },
+    { host: 'spectrumlocalnews.com',    table: 'events',    type:'JSON',    controller: newsEventsController,       ingestUri: 'https://spectrumlocalnews.com'}
 ];
 
 module.exports = (host) => {

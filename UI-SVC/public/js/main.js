@@ -3,13 +3,17 @@ import hostmapper from '../../mappers/hostMapper';
 $(function(){
 
     $('button').click(function(event){
-        console.log($(event.currentTarget).parents('.row'));
-        var hook = $(event.currentTarget).parents('.row').data('hook');
+        var target = $(event.currentTarget).parents('.row');
+        var hook = target.data('hook');
         console.log('---- hook : ', hook)
         var hostData = hostmapper(hook);
         console.log('---- host data : ', hostData)
-        var checkbox = $(event.currentTarget).parents('.row').find('.checkbox');
-        eval(hostData.controller).post(hostData.host, hostData.ingestURI)
+        var checkbox = target.find('.checkbox');
+
+        //options?
+        var options = target.find('input').length > 0 ? target.find('input').val() : null;
+
+        eval(hostData.controller).post(hostData.host, hostData.ingestURI, options)
             .then(response => {
                 console.log('----- response -> ', response)
                 console.log('----- response -> ', response.data)

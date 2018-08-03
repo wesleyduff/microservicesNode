@@ -4,8 +4,7 @@ const   request             =   require('request'),
     pgp                     =   require('pg-promise')(),
     pgPort                  =   process.env.PG_PORT || '5432',
     pgPassword              =   process.env.PG_PASSWORD || 'N5xa0K8tyN',
-    //pgDNS                 =   process.env.PG_DNS || '127.0.0.1',
-    pgDNS                   =   '127.0.0.1',
+    pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
     pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:${pgPort}/testharness`)
 
 

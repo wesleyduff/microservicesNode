@@ -1,8 +1,10 @@
 const   rootController  = require('./api.root.controller'),
-        wsiController   = require('./api.wsiController');
+        wsiController   = require('./api.wsiController'),
+        newsEventsController = require('./api.newsEvents.controller');
 
 
 module.exports = {
     rootController,
-    wsiController
+    wsiController,
+    newsEventsController
 };

@@ -1,0 +1,299 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testharness
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: ui-svc
+  name: ui-svc
+  namespace: testharness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: ui-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: ui-svc
+    spec:
+      containers:
+      - name: ui-svc
+        image: local/uisvc:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-svc
+  namespace: testharness
+spec:
+  selector:
+    run: ui-svc
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+    name: web
+  sessionAffinity: None
+  type: NodePort
+---
+#---
+# RDS POD
+# -- RDS Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: rds-svc
+  name: rds-svc
+  namespace: testharness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: rds-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: rds-svc
+    spec:
+      containers:
+      - name: rds-svc
+        image: local/rdsms:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+# -- RDS - Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: rds-svc
+  name: rds-svc
+  namespace: testharness
+spec:
+  selector:
+    run: rds-svc
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  sessionAffinity: None
+  type: ClusterIP
+---
+# DOC POD
+# -- DOC Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: doc-svc
+  name: doc-svc
+  namespace: testharness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: doc-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: doc-svc
+    spec:
+      containers:
+      - name: doc-svc
+        image: local/docms:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+# -- DOC - Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: doc-svc
+  name: doc-svc
+  namespace: testharness
+spec:
+  selector:
+    run: doc-svc
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  sessionAffinity: None
+  type: ClusterIP
+---
+# PUSH POD
+# -- PUSH Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: push-svc
+  name: push-svc
+  namespace: testharness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: push-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: push-svc
+    spec:
+      containers:
+      - name: push-svc
+        image: local/pushms:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+# -- PUSH - Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: push-svc
+  name: push-svc
+  namespace: testharness
+spec:
+  selector:
+    run: push-svc
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  sessionAffinity: None
+  type: ClusterIP
+---
+# INTERNAL POD
+# -- INTERNAL Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: internal-svc
+  name: internal-svc
+  namespace: testharness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: internal-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: internal-svc
+    spec:
+      containers:
+      - name: internal-svc
+        image: local/internalms:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+# -- INTERNAL - Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: internal-svc
+  name: internal-svc
+  namespace: testharness
+spec:
+  selector:
+    run: internal-svc
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  sessionAffinity: None
+  type: ClusterIP
+---
+
+# INGRESS NGIX - PROXY
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: testharness
+  name: test-node
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: ui.com
+    http:
+      paths:
+      - backend:
+          serviceName: ui-svc
+          servicePort: 3000
+  - host: rdstest.com
+    http:
+      paths:
+      - backend:
+          serviceName: rds-svc
+          servicePort: 3000
+  - host: doctest.com
+    http:
+      paths:
+      - backend:
+          serviceName: doc-svc
+          servicePort: 3000
+  - host: pushtest.com
+    http:
+      paths:
+      - backend:
+          serviceName: push-svc
+          servicePort: 3000
+  - host: internaltest.com
+    http:
+      paths:
+      - backend:
+          serviceName: internal-svc
+          servicePort: 3000
+

@@ -129,3 +129,7 @@ function insertConfig(table, jsonUrls, hosttext){
             }
         })
 }
+
+function callEachIngestEndpoint(jsonUrls){
+
+}

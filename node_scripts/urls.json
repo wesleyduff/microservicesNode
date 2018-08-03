@@ -1,0 +1,19 @@
+{"items" : [
+  {"url": "https://syndication.ap.org", "apikey": null, "apisecret": null, "table": "syndicationcontentfeeds"},
+  {"url": "https://spectrumlocalnews.com/services/event.08-02-2018.regions:.json", "apikey": null, "apisecret": null, "table": "spectrumlocalnews"},
+  {"url": "http://www.schoolclosingsnetwork.com/output/capitalnews9/closings.asp", "apikey": null, "apisecret": null, "table": "schoolclosingsnetwork"},
+  {"url": "https://www.spectrumlocalnews.com/services/contentfeed.hero.json/nys/capital-region", "apikey": null, "apisecret": null, "table": "spectrumlocalnews"},
+  {"url": "https://syndication.ap.org", "apikey": null, "apisecret": null, "table": "syndicationapfeeds"},
+  {"url": "http://www.lotterynumbersxml.com/lotterydata/charter.com/jkhadg832/lottery_US_only.xml", "apikey": null, "apisecret": null, "table": "lotterynumbersxml"},
+  {"url": "https://api.ap.org/v2/elections/", "apikey": null, "apisecret": null, "table": "apielections"},
+  {"url": "https://web.schenectady.k12.ny.us/captech/cgi-bin/gd91.pl?rc=allcomb", "apikey": null, "apisecret": null, "table": "schenectady"},
+  {"url": "http://api.stats.com", "apikey": null, "apisecret": null, "table": "apistats"},
+  {"url": "https://www.tickertech.com/xml/xmlquotes.mpl?client=twc2&fields=0,1,5,7,9,8,22,12,13&symbols=tsla", "apikey": null, "apisecret": null, "table": "tickertech"},
+  {"url": "https://wsidata.weather.com/201303/en-us/37082592/traffic.json", "apikey": null, "apisecret": null, "table": "wsidatatraffic"},
+  {"url": "https://web.mta.info/status/serviceStatus.txt", "apikey": null, "apisecret": null, "table": "mta"},
+  {"url": "https://www.njtransit.com/rss/RailAdvisories_feed.xml", "apikey": null, "apisecret": null, "table": "njtransit"},
+  {"url": "http://rss.paalerts.com/rss.aspx", "apikey": null, "apisecret": null, "table": "paalerts"},
+  {"url": "https://data-services.wsi.com/200904-01/683063150/Weather/Report/USNY1242", "apikey": null, "apisecret": null, "table": "weather"},
+  {"url": "https://madis-data.ncep.noaa.gov/madisPublic1/cgi-bin/madisXmlPublicDir?rdr=&time=0&minbck=-59&minfwd=0&recwin=3&dfltrsel=0&state=NY&latll=0.0&lonll=0.0&latur=90.0&lonur=0.0&stanam=&stasel=0&pvdrsel=1&varsel=1&qcsel=99&xml=2&csvmiss=1&nvars=T&nvars=RH&nvars=FF&nvars=DD", "apikey": null, "apisecret": null, "table": "madis"}
+]
+}

@@ -10,6 +10,9 @@ const   request             =   require('request'),
 
 
 exports.post = (req, res) => {
+    if(req.options){
+        req.ingestURI = req.ingestURI +'/'+ req.options
+    }
     console.log(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness ::: api root controller ----> ingestURL: ${req.ingestURI}, : table: ${req.table}, : host: ${req.host}`);
     request(req.ingestURI, (error, response, body) => {
         if(error){

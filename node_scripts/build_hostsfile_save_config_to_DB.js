@@ -14,8 +14,8 @@ let urlsFromFile = require('./urls.json'),
     hostFileText = '',
     JSONdataFromPG = null;
 
-process.env.LOCATION === 'local' ? initLocal() : initFromPG();
-
+//process.env.LOCATION === 'local' ? initLocal() : initFromPG();
+callEachIngestEndpoint(urlsFromFile.items)
 
 function initLocal(){
     let JSONtoSaveToPG = pushJsonURLs(urlsFromFile);
@@ -130,6 +130,26 @@ function insertConfig(table, jsonUrls, hosttext){
         })
 }
 
-function callEachIngestEndpoint(jsonUrls){
+function callEachIngestEndpoint(urlList){
+    urlList.forEach(item => {
+        request(item.url, (error, response, body) => {
+            if(error){
+                console.log('--- error from request : ', error);
+                return {
+                    error
+                }
+            } else if(response.statusCode !== 200){
+                console.log('---- status code is not 200', response)
+                return {
+                    response
+                }
+            }
 
+            console.log('---- success data : ', response);
+            return {
+                response,
+                body
+            }
+        })
+    })
 }

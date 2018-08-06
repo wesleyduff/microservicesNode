@@ -1,7 +1,6 @@
 const {
     rootController,
-    wsiController,
-    newsEventsController
+    wsiController
 } = require('../controllers');
 
 const hosts = [

@@ -5,6 +5,7 @@ const Url = require('url-parse');
 
 let readStream = fs.createReadStream(path.resolve(__dirname, './list_of_uri_endpoints.txt')),
     remaining = '',
+    container = {},
     _json = {data:[]};
 
 readStream.on('data', (data) => {
@@ -27,7 +28,11 @@ readStream.on('end', () => {
 
 function createJson(line){
     let url = new Url(line);
-    _json.data.push({uri: line, host: url.host, options: url.pathname + url.query})
+    //find dupe?
+    const dupe = _json.data.find(urlObj => urlObj.uri === line);
+    if(!dupe){
+        _json.data.push({uri: line, host: url.host, options: url.pathname + url.query})
+    }
 }
 
 function writeToFile(data){

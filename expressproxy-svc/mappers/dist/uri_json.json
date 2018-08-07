@@ -47,11 +47,6 @@
             "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42205&idListType=products&maxItems=50"
         },
         {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42205&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42205&idListType=products&maxItems=50"
-        },
-        {
             "uri": "http://www.schoolclosingsnetwork.com/output/capitalnews9/closings.asp",
             "host": "www.schoolclosingsnetwork.com",
             "options": "/output/capitalnews9/closings.asp"
@@ -62,24 +57,9 @@
             "options": "/v1/stats/hockey/nhl/scores/?accept=json&linescore=true&api_key=689fkr2ezme3f78x6bra8qxm&sig=131e505620766aee31ee4a49c9abae172ce57fd213803654ba6bea86f03cc6ad&date=2018-08-06"
         },
         {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42205&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42205&idListType=products&maxItems=50"
-        },
-        {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=689569&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime=",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=689569&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime="
-        },
-        {
             "uri": "http://data-services.wsi.com/200904-01/683063150/Weather/Report/USNC0558",
             "host": "data-services.wsi.com",
             "options": "/200904-01/683063150/Weather/Report/USNC0558"
-        },
-        {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42205&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42205&idListType=products&maxItems=50"
         },
         {
             "uri": "http://api.stats.com/v1/stats/football/cfb/scores/?accept=json&linescore=true&api_key=689fkr2ezme3f78x6bra8qxm&sig=3687b32c54f94fa2ac29f80b4f3df2ebbbf3c6958270aac85ca09fc27fe1f6d0&date=2018-08-06",
@@ -137,11 +117,6 @@
             "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42202&idListType=products&maxItems=50"
         },
         {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42209&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42209&idListType=products&maxItems=50"
-        },
-        {
             "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=691752&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime=",
             "host": "syndication.ap.org",
             "options": "/AP.Distro.Feed/GetFeed.aspx?idList=691752&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime="
@@ -172,26 +147,6 @@
             "options": "/content/news/baynews9/feeds/rss.html/local-news.html"
         },
         {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=691752&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime=",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=691752&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime="
-        },
-        {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42210&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42210&idListType=products&maxItems=50"
-        },
-        {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42200&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42200&idListType=products&maxItems=50"
-        },
-        {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42202&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42202&idListType=products&maxItems=50"
-        },
-        {
             "uri": "http://data-services.wsi.com/200904-01/683063150/Weather/Report/USNC0121",
             "host": "data-services.wsi.com",
             "options": "/200904-01/683063150/Weather/Report/USNC0121"
@@ -205,11 +160,6 @@
             "uri": "http://api.stats.com/v1/stats/hockey/nhl/teams/?accept=json&api_key=689fkr2ezme3f78x6bra8qxm&sig=5b71ddc392aa0fbe1aadf8f958779ca246de6667725a4c7aef9f2abcd344e6ae",
             "host": "api.stats.com",
             "options": "/v1/stats/hockey/nhl/teams/?accept=json&api_key=689fkr2ezme3f78x6bra8qxm&sig=5b71ddc392aa0fbe1aadf8f958779ca246de6667725a4c7aef9f2abcd344e6ae"
-        },
-        {
-            "uri": "http://data-services.wsi.com/200904-01/683063150/Weather/Report/USNC0558",
-            "host": "data-services.wsi.com",
-            "options": "/200904-01/683063150/Weather/Report/USNC0558"
         },
         {
             "uri": "http://www.baynews9.com/services/contentfeed.fl%7Ctampa.hero.rss",
@@ -232,24 +182,9 @@
             "options": "/v1/stats/soccer/mls/teams/?languageId=1&accept=json&api_key=689fkr2ezme3f78x6bra8qxm&sig=543a63e55145e3326e27d69918563b641e6a1ea73398ed9254425d5bf8f7d9dd"
         },
         {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42209&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42209&idListType=products&maxItems=50"
-        },
-        {
             "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=689574&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime=",
             "host": "syndication.ap.org",
             "options": "/AP.Distro.Feed/GetFeed.aspx?idList=689574&idListType=savedsearches&maxItems=100&minDateTime=&maxDateTime="
-        },
-        {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42202&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42202&idListType=products&maxItems=50"
-        },
-        {
-            "uri": "http://syndication.ap.org/AP.Distro.Feed/GetFeed.aspx?idList=42202&idListType=products&maxItems=50",
-            "host": "syndication.ap.org",
-            "options": "/AP.Distro.Feed/GetFeed.aspx?idList=42202&idListType=products&maxItems=50"
         }
     ]
 }

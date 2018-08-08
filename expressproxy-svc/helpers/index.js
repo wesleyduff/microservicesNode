@@ -1,3 +1,4 @@
+const URL = require('url-parse');
 const exportList = {};
 if (typeof btoa === 'undefined') {
     global.btoa = function (str) {
@@ -32,6 +33,10 @@ exportList.getHost = (req) => {
     if(req.headers['x-testharness-host']){
         return req.headers['x-testharness-host'];
     }
+    if(req.query.ingesturi){
+        const ingestURI = new URL(req.query.ingesturi);
+        return ingestURI.host.replace('www.', '');
+    }
     //replace www and ports
     const host = req.headers.host.substring(0, req.headers.host.indexOf(':')).replace('www.', '');
     return host;
@@ -39,6 +44,9 @@ exportList.getHost = (req) => {
 exportList.getOptions = (req) => {
     if(req.headers.hasOwnProperty('x-testharness-options')){
         return req.headers['x-testharness-options'];
+    } else if(req.query.ingesturi){
+        const ingestURI = new URL(req.query.ingesturi);
+        return ingestURI.pathname + ingestURI.query;
     } else if(req.headers.hasOwnProperty('url')){
         return req.headers.url;
     }

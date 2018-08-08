@@ -34,7 +34,7 @@ function createJson(line){
     //get table name
     let tableName = url.host.substring(0, url.host.indexOf('.')).replace('-', '')
     //find dupe?
-    const dupe = _json.data.find(urlObj => urlObj.uri === line);
+    const dupe = _json.data.find(urlObj => urlObj.ingestUri === line);
     if(!dupe){
         if(line.match(/.jpg/)){
             return false;

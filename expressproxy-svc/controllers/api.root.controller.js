@@ -109,7 +109,7 @@ exports.get = (req, res) => {
     let type        = null;
 
 
-    pgDatabase.any(`SELECT * FROM ${req.table}`)
+    pgDatabase.any(`SELECT * FROM ${req.table} WHERE options = '${req.options}' ORDER BY created DESC LIMIT 1`)
         .then(function (resultFromGet) {
             let returnData = { data: []};
             resultFromGet.forEach(item => {

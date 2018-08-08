@@ -3,13 +3,13 @@ const {
 } = require('../controllers'),
     generatedRoutes         =   require('./dist/uri_json.json');
 
-module.exports = (host) => {
-    console.log('---host ', host)
-    const foundHost = generatedRoutes.data.find(item => item.host.toLowerCase() === host.toLowerCase());
-    foundHost.controller = rootController;
+module.exports = (ingestURI) => {
+    console.log('---host ', ingestURI)
+    const foundHost = generatedRoutes.data.find(item => item.ingestUri.toLowerCase() === ingestURI.toLowerCase());
     if(!foundHost){
         return generatedRoutes.data[0];
     } else {
+        foundHost.controller = rootController;
         return foundHost;
     }
 }

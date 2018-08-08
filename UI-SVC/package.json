@@ -1,0 +1,33 @@
+{
+  "name": "ui-svc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pre-build": "webpack --config webpack.config.js",
+    "build": "export NODE_ENV=dev&& export EXPRESSPROXY_PORT=8080&& node index.js",
+    "start": "npm run pre-build && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.55",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "@babel/runtime": "^7.0.0-beta.55",
+    "babel-loader": "^8.0.0-beta.4",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.55",
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.1",
+    "css-loader": "^1.0.0",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.1",
+    "morgan": "^1.9.0",
+    "pg-promise": "^8.4.5",
+    "request": "^2.87.0",
+    "swig": "^1.4.2",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0",
+    "json-loader": "^0.5.7"
+  }
+}

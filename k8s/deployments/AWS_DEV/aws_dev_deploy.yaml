@@ -6,7 +6,7 @@ metadata:
     run: expressproxy-svc
   name: expressproxy-svc
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       run: expressproxy-svc
@@ -17,13 +17,33 @@ spec:
     spec:
       containers:
       - name: expressproxy-svc
-        image: localexpress
-        imagePullPolicy: IfNotPresent
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:svcV10
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
+      restartPolicy: Always
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: testharness
+  labels:
+    run: expressproxy-ui
+  name: expressproxy-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: expressproxy-ui
+  template:
+    metadata:
+      labels:
+        run: expressproxy-ui
+    spec:
+      containers:
       - name: expressproxy-ui
-        image: localUI
-        imagePullPolicy: IfNotPresent
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:uiV10
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
       restartPolicy: Always
@@ -41,6 +61,10 @@ spec:
       paths:
       - backend:
           serviceName: expressproxy-svc
+          servicePort: 8080
+        path: /svc
+      - backend:
+          serviceName: expressproxy-ui
           servicePort: 3000
         path: /
 ---
@@ -52,13 +76,24 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 3000
-    name: web
-    protocol: TCP
-    targetPort: 3000
   - port: 8080
     protocol: TCP
     targetPort: 8080
     name: api
   selector:
     run: expressproxy-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testharness
+  name: expressproxy-ui
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    name: web
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    run: expressproxy-ui

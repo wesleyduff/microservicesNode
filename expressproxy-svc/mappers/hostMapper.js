@@ -1,15 +1,14 @@
-const ipAddresses = require('../constants');
-const hosts = [
-    {host: "rdstest.com", target: `http://${ipAddresses.RDSIp}`},
-    {host: "doctest.com", target: `http://${ipAddresses.DOCIp}`},
-    {host: "pushstring.com", target: `http://${ipAddresses.PUSHIp}`},
-    {host: "pushdoc.com", target: `http://${ipAddresses.PUSHIp}`},
-    {host: "internal.com", target: `http://${ipAddresses.INTERNALIp}`}
-]
+const {
+    rootController
+} = require('../controllers'),
+    generatedRoutes         =   require('./dist/uri_json.json');
+
 module.exports = (host) => {
-    const foundHost = hosts.find(item => item.host.toLowerCase() === host.toLowerCase());
+    console.log('---host ', host)
+    const foundHost = generatedRoutes.data.find(item => item.host.toLowerCase() === host.toLowerCase());
+    foundHost.controller = rootController;
     if(!foundHost){
-        return hosts[2];
+        return generatedRoutes.data[0];
     } else {
         return foundHost;
     }

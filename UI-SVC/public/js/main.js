@@ -1,13 +1,28 @@
 import hostmapper from '../../mappers/hostMapper';
+import rootController from '../../controllers/api.root.controller';
 
 $(function(){
+    function getRouteObject(hook){
+        var hostData = hostmapper(hook);
+
+        return {hostData}
+    }
+
+    $('#runall').click(function(){
+        console.dir(rootController);
+        const notifcation = $('.notification');
+        const notificatinIcon = notifcation.next();
+        notificatinIcon.switchClass('glyphicon-asterisk', 'glyphicon-fire')
+        notifcation.switchClass('standby', 'pending');
+        rootController().ingestAll();
+    })
+
 
     $('button').click(function(event){
         var target = $(event.currentTarget).parents('.row');
         var hook = target.data('hook');
         console.log('---- hook : ', hook)
-        var hostData = hostmapper(hook);
-        console.log('---- host data : ', hostData)
+        const { hostData } = getRouteObject(hook);
         var checkbox = target.find('.checkbox');
 
         //options?

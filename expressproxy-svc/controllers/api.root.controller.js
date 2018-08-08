@@ -5,14 +5,11 @@ const   request             =   require('request'),
     pgPassword              =   process.env.PG_PASSWORD || 'OWPuQDQTJC',
     //pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
     pgDNS                   =   process.env.NODE_ENV === 'dev' ? process.env.PG_DNS : '127.0.0.1',
-    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness`);
-
+    pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness`),
+    chalk                   =   require('chalk');
 
 
 exports.post = (req, res) => {
-    if(req.options){
-        req.ingestURI = req.ingestURI +'/'+ req.options
-    }
     console.log(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness ::: api root controller ----> ingestURL: ${req.ingestURI}, : table: ${req.table}, : host: ${req.host}`);
     request(req.ingestURI, (error, response, body) => {
         if(error){
@@ -20,29 +17,63 @@ exports.post = (req, res) => {
                 error
             })
             return;
+        } else if(response.statusCode !== 200){
+            console.log(chalk.magenta(`---- response status code not 200: ${response.statusCode} : req.ingestURI : ${req.ingestURI}`));
+            res.json({
+                error: 'Status code was not 200',
+                response,
+                ingestURI: req.ingestURI
+            })
+            return;
         }
 
+        const   options     = req.options || '';
+        let     dataToSave  = null,
+                type        = null,
+                tableColumnType = null;
 
-        const encodedString = encode(body, req.type);
-        pgDatabase.none(`INSERT INTO ${req.table} (data, title) VALUES($1, $2)`, [ encodedString, `${req.table} ingest from ${req.host}`])
-            .then(insertDataResponse => {
-                pgDatabase.any(`SELECT * FROM ${req.table}`)
-                    .then(function (resultFromGet) {
-                        let returnData = { data: []};
-                        resultFromGet.forEach(item => {
-                            returnData.data.push({createdDate: item.created, title: item.title, data: decode(item.data)})
-                        })
-                        res.json(returnData)
+
+        if(response.headers['content-type'].match(/xml/)){
+            type = 'xml';
+            tableColumnType = 'text';
+        }
+
+        if(response.headers['content-type'].match(/json/)){
+            type = 'json';
+            tableColumnType = 'jsonb';
+        }
+
+        if(type === 'xml'){
+            dataToSave = encode(body, req.type);
+        }
+        dataToSave = dataToSave || body;
+        pgDatabase.none(`CREATE TABLE IF NOT EXISTS ${req.table} (datatype varchar(10), ingestcreator varchar(255), title varchar(255), created date DEFAULT now(), data ${tableColumnType}, options text)`)
+            .then(createTableResult => {
+                pgDatabase.none(`INSERT INTO ${req.table} (datatype, ingestcreator, data, options, title) VALUES($1, $2, $3, $4, $5)`, [type, req.host, dataToSave, options, `${req.table} ingest from ${req.host}`])
+                    .then(insertDataResponse => {
+                        pgDatabase.any(`SELECT * FROM ${req.table}`)
+                            .then(function (resultFromGet) {
+                                let returnData = { data: []};
+                                resultFromGet.forEach(item => {
+                                    returnData.data.push({datatype: item.datatype, createdDate: item.created, title: item.title, data: item.datatype === 'xml' ? decode(item.data) : item.data, options: item.options})
+                                })
+                                res.json(returnData)
+                            })
+                            .catch(function (error) {
+                                console.log(chalk.pink('ERROR - select from db:', error))
+                                res.json('error : ' + error)
+                            })
                     })
-                    .catch(function (error) {
-                        console.log('ERROR:', error)
+                    .catch(error => {
+                        console.log(chalk.bgRed('ERROR -- insert error:', error)); // print error;
                         res.json('error : ' + error)
-                    })
+                    });
             })
             .catch(error => {
-                console.log('ERROR:', error); // print error;
-                res.json('error : ' + error)
-            });
+                console.log(chalk.bgGreen(`ingestURI : ${req.ingestURI}, : table: ${req.table} , : table column type: ${tableColumnType} : content-type : ${response.headers['content-type']}`))
+                console.log(chalk.bgMagenta('---- ERROR - create table error : \n', error));
+            })
+
 
 
 
@@ -70,11 +101,14 @@ exports.patch = (req, res) => {
 }
 
 exports.get = (req, res) => {
+    let type        = null;
+
+
     pgDatabase.any(`SELECT * FROM ${req.table}`)
         .then(function (resultFromGet) {
             let returnData = { data: []};
             resultFromGet.forEach(item => {
-                returnData.data.push({createdDate: item.created, title: item.title, data: decode(item.data)})
+                returnData.data.push({datatype: item.datatype, createdDate: item.created, title: item.title, data: item.datatype === 'xml' ? decode(item.data) : item.data, options: item.options})
             })
             res.json(returnData)
         })

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build_uri_endpoint_json_file": "node ./build_scripts/build_uri_endpoint_mapper.js",
+    "build_uri_endpoint_json_file": "export NODE_ENV=dev&& node ../build_scripts/build_uri_endpoint_mapper.js",
     "local": "npm run build_uri_endpoint_json_file && node index.js --inspect",
     "start": "npm run build_uri_endpoint_json_file && NODE_ENV=dev MONGO_PASSWORD=K6PwfGtteJ MONGO_DNS=mongo-mongodb.testharness.svc.cluster.local MONGO_PORT=27017 PG_DNS=postgres-postgresql.testharness.svc.cluster.local PG_PORT=5432 PG_PASSWORD=OWPuQDQTJC node index.js"
   },

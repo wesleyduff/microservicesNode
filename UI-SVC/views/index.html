@@ -6,71 +6,69 @@
 <header>
     Populate Database
 </header>
-<div class="populateDatabase--container">
-    <div class="row" data-hook="weather">
-        <div class="col-xs-3 col-md-1">
-            <button class="btn-primary info" onClick="">execute</button>
-        </div>
-        <div class="col-xs-6 col-md-9">
-            Populate Weather
-        </div>
-        <div class="col-xs-3 col-md-2 checkbox disabled">
-            <i class="bad"></i>
-        </div>
-    </div>
 
-    <div class="row" data-hook="traffic">
-        <div class="col-xs-3 col-md-1">
-            <button class="btn-primary info" onClick="">execute</button>
-        </div>
-        <div class="col-xs-6 col-md-9">
-            Populate Traffic
-        </div>
-        <div class="col-xs-3 col-md-2 checkbox disabled">
-            <i class="bad"></i>
-        </div>
-    </div>
+<section style="border-bottom:2px solid #CCC; padding:10px 0;">
+    <div><strong class="notification standby"></strong> <i class="glyphicon glyphicon-asterisk" style="font-size:2em"></i></div>
+    <br/>
+    <input type="button" id="runall" class="btn btn-danger" value="Run all ingests" />
+</section>
+<br/>
+<section>
+    <h2>Run Individuals</h2>
+    <div class="populateDatabase--container">
 
-    <div class="row" data-hook="lottery">
-        <div class="col-xs-3 col-md-1">
-            <button class="btn-primary info" onClick="">execute</button>
+        <div class="row" data-hook="traffic">
+            <div class="col-xs-3 col-md-1">
+                <button class="btn-primary info" onClick="">execute</button>
+            </div>
+            <div class="col-xs-6 col-md-9">
+                <div>Populate Traffic</div>
+                <span>Options</span> : <input type="text" value="/201303/en-us/37082592/traffic.json" />
+            </div>
+            <div class="col-xs-3 col-md-2 checkbox disabled">
+                <i class="bad"></i>
+            </div>
         </div>
-        <div class="col-xs-6 col-md-9">
-            Populate Lottery
+        <br />
+        <div class="row" data-hook="lottery">
+            <div class="col-xs-3 col-md-1">
+                <button class="btn-primary info" onClick="">execute</button>
+            </div>
+            <div class="col-xs-6 col-md-9">
+                <div>Populate Lottery</div>
+                <span>Options</span> : <input type="text" value="/lotterydata/charter.com/jkhadg832/lottery_US_only.xml" />
+            </div>
+            <div class="col-xs-3 col-md-2 checkbox disabled">
+                <i class="bad"></i>
+            </div>
         </div>
-        <div class="col-xs-3 col-md-2 checkbox disabled">
-            <i class="bad"></i>
+        <br />
+        <div class="row" data-hook="newsEvent">
+            <div class="col-xs-3 col-md-1">
+                <button class="btn-primary info" onClick="">execute</button>
+            </div>
+            <div class="col-xs-6 col-md-9">
+                <div>Populate Calender Events</div>
+                <span>Options</span> : <input type="text" value="/services/event.08-01-2018.regions:.json" />
+            </div>
+            <div class="col-xs-3 col-md-2 checkbox disabled">
+                <i class="bad"></i>
+            </div>
+        </div>
+        <br />
+        <div class="row" data-hook="paalerts">
+            <div class="col-xs-3 col-md-1">
+                <button class="btn-primary info" onClick="">execute</button>
+            </div>
+            <div class="col-xs-6 col-md-9">
+                <div>Populate PA Alerts</div>
+                <span>Options</span> : <input type="text" value="rss.aspx" />
+            </div>
+            <div class="col-xs-3 col-md-2 checkbox disabled">
+                <i class="bad"></i>
+            </div>
         </div>
     </div>
-
-    <div class="row" data-hook="newsEvent">
-        <div class="col-xs-3 col-md-1">
-            <button class="btn-primary info" onClick="">execute</button>
-        </div>
-        <div class="col-xs-6 col-md-9">
-            Populate Calender Events
-            <br />
-            <span>Options</span> : <input type="text" value="/services/event.08-01-2018.regions:.json" />
-        </div>
-        <div class="col-xs-3 col-md-2 checkbox disabled">
-            <i class="bad"></i>
-        </div>
-    </div>
-    <br />
-    <div class="row" data-hook="paalerts">
-        <div class="col-xs-3 col-md-1">
-            <button class="btn-primary info" onClick="">execute</button>
-        </div>
-        <div class="col-xs-6 col-md-9">
-            Populate PA Alerts
-            <br />
-            <span>Options</span> : <input type="text" value="rss.aspx" />
-        </div>
-        <div class="col-xs-3 col-md-2 checkbox disabled">
-            <i class="bad"></i>
-        </div>
-    </div>
-
-</div>
+</section>
 
 {% endblock %}

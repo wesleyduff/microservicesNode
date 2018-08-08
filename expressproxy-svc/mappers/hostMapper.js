@@ -1,23 +1,14 @@
 const {
-    rootController,
-    wsiController
-} = require('../controllers');
-
-const hosts = [
-    { host: 'wsidata.weather.com',      table: '?',         type: 'JSON',   controller: wsiController,              ingestUri: [
-                                                                                                                                {type: 'traffic', endpoint: 'https://wsidata.weather.com/201303/en-us/37082592/traffic.json'},
-                                                                                                                                {type: 'weather', endpoint: 'https://wsidata.weather.com/201303/en-us/37082592/weather.json'}
-                                                                                                                                ]},
-    { host: 'lotterynumbersxml.com',    table: 'lottery',   type: 'xml',    controller: rootController,             ingestUri: 'http://www.lotterynumbersxml.com/lotterydata/charter.com/jkhadg832/lottery_US_only.xml' },
-    { host: 'spectrumlocalnews.com',    table: 'events',    type:'JSON',    controller: rootController,             ingestUri: 'https://spectrumlocalnews.com'},
-    { host: 'rss.paalerts.com',         table: 'paalerts',  type:'xml',     controller: rootController,             ingestUri: 'http://rss.paalerts.com/rss.aspx'}
-];
+    rootController
+} = require('../controllers'),
+    generatedRoutes         =   require('./dist/uri_json.json');
 
 module.exports = (host) => {
     console.log('---host ', host)
-    const foundHost = hosts.find(item => item.host.toLowerCase() === host.toLowerCase());
+    const foundHost = generatedRoutes.data.find(item => item.host.toLowerCase() === host.toLowerCase());
+    foundHost.controller = rootController;
     if(!foundHost){
-        return hosts[0];
+        return generatedRoutes.data[0];
     } else {
         return foundHost;
     }

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pre-build": "webpack --config webpack.config.js",
-    "build" : "export NODE_ENV=dev&& export EXPRESSPROXY_PORT=8080&& node index.js",
+    "build": "export NODE_ENV=dev&& export EXPRESSPROXY_PORT=8080&& node index.js",
     "start": "npm run pre-build && npm run build"
   },
   "author": "",
@@ -27,6 +27,7 @@
     "request": "^2.87.0",
     "swig": "^1.4.2",
     "webpack": "^4.16.3",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "json-loader": "^0.5.7"
   }
 }

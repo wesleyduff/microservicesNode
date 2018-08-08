@@ -1,7 +1,7 @@
 const   app            = require('express')(),
         chalk          = require('chalk'),
         hostMapper     = require('./mappers/hostMapper'),
-        { getHost, getOptions }    = require('./helpers'),
+        { getHost, getOptions, getTableName, getIngestUri }    = require('./helpers'),
         MongoClient    = require('mongodb').MongoClient,
     cors = require('cors'),
         MONGO_PORT     = process.env.MONGO_PORT || 27017,
@@ -35,13 +35,14 @@ app.use(cors());
 app.use((req, res, next) => {
     const host = getHost(req);
     const options = getOptions(req);
+    console.log('---- options ----');
+    console.log(options)
     const controllerData = hostMapper(host);
     console.log(`----- host mapper mapped : ${controllerData.ingestUri} : ${controllerData.type} : ${controllerData.table}`)
     req.host = host;
     req.controller = controllerData.controller;
     req.ingestURI = controllerData.ingestUri;
-    req.returnType = controllerData.type;
-    req.table = controllerData.table;
+    req.table = controllerData.tableName;
     req.mongoDatabase = mongoDatabase;
     req.mongoClient = mongoClient;
     if(options){

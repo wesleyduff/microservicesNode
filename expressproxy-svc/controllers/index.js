@@ -1,8 +1,6 @@
-const   rootController  = require('./api.root.controller'),
-        wsiController   = require('./api.wsiController')
+const   rootController  = require('./api.root.controller')
 
 
 module.exports = {
-    rootController,
-    wsiController
+    rootController
 };

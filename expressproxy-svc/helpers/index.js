@@ -10,11 +10,31 @@ if (typeof atob === 'undefined') {
         return new Buffer(b64Encoded, 'base64').toString('binary');
     };
 }
+exportList.getIngestUri = (req) => {
+    if(req.headers['x-testharness-ingesturi']){
+        return req.headers['x-testharness-ingesturi'];
+    }
+    return null;
+}
+exportList.getTableName = (req) => {
+    if(req.headers['x-testharness-tablename']){
+        return req.headers['x-testharness-tablename'];
+    }
+    return null;
+}
+exportList.getTableName = (req) => {
+    if(req.headers['x-testharness-tablename']){
+        return req.headers['x-testharness-tablename'];
+    }
+    return null;
+}
 exportList.getHost = (req) => {
     if(req.headers['x-testharness-host']){
         return req.headers['x-testharness-host'];
     }
-    return req.headers.host;
+    //replace www and ports
+    const host = req.headers.host.substring(0, req.headers.host.indexOf(':')).replace('www.', '');
+    return host;
 }
 exportList.getOptions = (req) => {
     if(req.headers.hasOwnProperty('x-testharness-options')){

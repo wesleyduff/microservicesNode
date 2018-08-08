@@ -1,10 +1,14 @@
-const uri_json = require( '../mappers/dist/uri_json' );
+const uri_json = require( '../mappers/dist/uri_json' ),
+    chalk = require('chalk');
 
 export default () => {
     return {
-        ingestAll: () => {
+        ingestAll: (progressBarDomElement) => {
             console.log(uri_json);
-            //loop through and make a map of promises
+            //handle progressbar
+            const jsonDataLength = uri_json.data.length;
+            let percentage = 0;
+            let count = 1;
 
             //loop over each user
             const promiseArray = uri_json.data.map(route => {
@@ -22,12 +26,25 @@ export default () => {
                         .then(response => {
                             return response.json();
                         })
-                        .then(responseJSON => {
-                            console.log('---- responseJSON ', responseJSON)
-                            resolve(responseJSON)
+                        .then(response => {
+                            console.log('---- responseJSON ', response)
+                            percentage = 100 / (jsonDataLength / count);
+                            progressBarDomElement.width(`${percentage}%`)
+                            console.log(chalk.bgBlue(`percentage of progress bar : ${percentage}%`))
+                            count++;
+
+                            resolve({
+                                response,
+                                route
+                            });
                         })
                         .catch(err => {
+                            percentage = 100 / (jsonDataLength / count);
+                            progressBarDomElement.width(`${percentage}%`)
+                            console.log(chalk.bgBlue(`percentage of progress bar : ${percentage}%`))
+                            count++;
                             reject({
+                                route,
                                 err,
                                 response: '-- error fetching ingest point from other pod'
                             });
@@ -36,16 +53,24 @@ export default () => {
 
             });
 
-            Promise.all(promiseArray)
-                .then(results => {
-                    console.log('---- all results', results)
-                    results.forEach(res => {
-                        console.log('---- res', res)
+            return new Promise((resolve, reject) => {
+                Promise.all(promiseArray)
+                    .then(results => {
+                        console.log('---- all results', results)
+                        results.forEach(res => {
+                            console.log('---- res', res)
+                            resolve({
+                                results
+                            })
+                        })
                     })
-                })
-                .catch(error => {
-                    console.log('----- error from promise all', error)
-                })
+                    .catch(error => {
+                        console.log('----- error from promise all', error)
+                        reject({
+                            error
+                        })
+                    })
+                });
         },
         post: (host, ingestURI, options=null) => {
             return new Promise((resolve, reject) => {

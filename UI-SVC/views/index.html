@@ -9,11 +9,19 @@
 
 <section style="border-bottom:2px solid #CCC; padding:10px 0;">
     <div><strong class="notification standby"></strong> <i class="glyphicon glyphicon-asterisk" style="font-size:2em"></i></div>
-    <br/>
-    <input type="button" id="runall" class="btn btn-danger" value="Run all ingests" />
+    <div class="well">
+        <input type="button" id="runall" class="btn btn-danger" value="Run all ingests" />
+        <br/>
+        <br/>
+        <div class="progress">
+            <div class="progress-bar ingest" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                <span class="sr-only">60% Complete</span>
+            </div>
+        </div>
+    </div>
 </section>
 <br/>
-<section>
+<section class="disabled">
     <h2>Run Individuals</h2>
     <div class="populateDatabase--container">
 

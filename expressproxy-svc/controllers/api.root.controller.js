@@ -66,12 +66,17 @@ exports.post = (req, res) => {
                     })
                     .catch(error => {
                         console.log(chalk.bgRed('ERROR -- insert error:', error)); // print error;
-                        res.json('error : ' + error)
+                        res.json({
+                            error
+                        })
                     });
             })
             .catch(error => {
                 console.log(chalk.bgGreen(`ingestURI : ${req.ingestURI}, : table: ${req.table} , : table column type: ${tableColumnType} : content-type : ${response.headers['content-type']}`))
                 console.log(chalk.bgMagenta('---- ERROR - create table error : \n', error));
+                res.json({
+                    error
+                })
             })
 
 

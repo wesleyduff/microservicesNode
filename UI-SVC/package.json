@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pre-build": "webpack --config webpack.config.js",
-    "build": "export NODE_ENV=dev&& export EXPRESSPROXY_PORT=8080&& node index.js",
-    "start": "npm run pre-build && npm run build"
+    "build": "export EXPRESSPROXY_PORT=8080&& node index.js",
+    "local": "export NODE_ENV=dev&& npm run pre-build && npm run build",
+    "start": "export NODE_ENV=test&& npm run pre-build && npm run build"
   },
   "author": "",
   "license": "ISC",

@@ -12,9 +12,17 @@ $(function(){
         console.dir(rootController);
         const notifcation = $('.notification');
         const notificatinIcon = notifcation.next();
-        notificatinIcon.switchClass('glyphicon-asterisk', 'glyphicon-fire')
-        notifcation.switchClass('standby', 'pending');
-        rootController().ingestAll();
+        notificatinIcon.switchClass('glyphicon-asterisk', 'glyphicon-ok')
+        notifcation.switchClass('pending', 'success');
+        rootController().ingestAll($('.progress-bar.ingest'))
+            .then(results => {
+                console.log('---- success : ingesting all endpoints');
+                notificatinIcon.switchClass('glyphicon-fire', 'glyphicon-fire')
+                notifcation.switchClass('standby', 'pending');
+            })
+            .catch(error => {
+                console.log('----- error ingesting all : ', error);
+            })
     })
 
 

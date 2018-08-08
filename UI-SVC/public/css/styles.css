@@ -72,7 +72,35 @@ input[type="submit"]{
     color:green;
 }
 .success::before{
-    content:'Stand by: ';
+    content:'Success initiating all calls for ingest: ';
     width: auto;
     height: 10px;
+}
+
+section{
+    position: relative;
+}
+
+section.disabled::before{
+    content: ' ';
+    width:100%;
+    height:100%;
+    background-color: #9d9d9d;
+    opacity: .8;
+    position: absolute;
+    z-index: 100;
+}
+section.disabled::after{
+    content: "DISABLED";
+    color: red;
+    position:absolute;
+    font-size:3em;
+    font-weight:bold;
+    width:100%;
+    top:3em;
+    text-align:center;
+    z-index:101;
+}
+section.disabled{
+    filter: blur(4px);
 }

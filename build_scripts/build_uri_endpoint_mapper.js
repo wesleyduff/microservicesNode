@@ -36,6 +36,9 @@ function createJson(line){
     //find dupe?
     const dupe = _json.data.find(urlObj => urlObj.uri === line);
     if(!dupe){
+        if(line.match(/.jpg/)){
+            return false;
+        }
         _json.data.push({serviceEndpoint, tableName, ingestUri: line, host: url.host, options: url.pathname + url.query})
     }
 }

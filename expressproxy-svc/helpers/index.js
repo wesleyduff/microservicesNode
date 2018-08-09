@@ -47,8 +47,8 @@ exportList.getOptions = (req) => {
     } else if(req.query.ingesturi){
         const ingestURI = new URL(req.query.ingesturi);
         return ingestURI.pathname + ingestURI.query;
-    } else if(req.headers.hasOwnProperty('url')){
-        return req.headers.url;
+    } else if(req.hasOwnProperty('url')){
+        return req.url;
     }
 }
 exportList.encode = (data, type) => {

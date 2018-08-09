@@ -39,7 +39,9 @@ app.use((req, res, next) => {
     console.log(options)
     let controllerData = null;
     if(req.query.ingesturi){
-        controllerData = hostMapper(req.query.ingesturi);
+        controllerData = hostMapper({type: 'query', host: req.query.ingesturi});
+    } else {
+        controllerData = hostMapper({type: 'host', host});
     }
     console.log(`----- host mapper mapped : ${controllerData.ingestUri} : ${controllerData.type} : ${controllerData.table}`)
     req.host = host;

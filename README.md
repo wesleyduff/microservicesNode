@@ -17,3 +17,18 @@
 1. use postman
 2. setup headers to run locally 
 3. submit get or post via postman to svc
+
+## Call (GET) data
+### HOST file 
+1. change host file to point to IP address
+2. call ingest endpoint
+
+### Query in URI
+1. call endpoint.com/svc?query
+
+example:  
+testharness.com:8080?ingesturi=http://www.lotterynumbersxml.com/lotterydata/charter.com/jkhadg832/lottery_US_only.xml
+
+**MUST**
+1. provide http or https  
+example : http://www. || https://www.

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: expressproxy-svc
-        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:svcV11
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:svcV13
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
       - name: expressproxy-ui
-        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:uiV11
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:uiV18
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -52,7 +52,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   namespace: testharness
-  name: expressproxy-svc
+  name: expressproxy-svc-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
 spec:
@@ -62,10 +62,6 @@ spec:
       - backend:
           serviceName: expressproxy-svc
           servicePort: 8080
-        path: /svc
-      - backend:
-          serviceName: expressproxy-ui
-          servicePort: 3000
         path: /
 ---
 apiVersion: v1
@@ -76,7 +72,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
     targetPort: 8080
     name: api
@@ -97,3 +93,21 @@ spec:
     targetPort: 3000
   selector:
     run: expressproxy-ui
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testharness
+  labels:
+    run: expressproxy-ui
+  name: expressproxy-lb
+spec:
+  selector:
+    run: expressproxy-ui
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
+  sessionAffinity: None
+  type: LoadBalancer
+---

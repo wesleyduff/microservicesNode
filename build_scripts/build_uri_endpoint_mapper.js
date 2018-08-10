@@ -1,7 +1,7 @@
 const   fs      = require('fs'),
         path    = require('path'),
         Url     = require('url-parse'),
-        serviceEndpoint = process.env.NODE_ENV === 'dev' ? 'http://testharness.com:8080' : '/svc';
+        serviceEndpoint = process.env.NODE_ENV === 'dev' ? 'http://testharness.com:8080' : 'https://acd8088d091d611e8855502929adfc33-996456070.us-west-2.elb.amazonaws.com/';
 
 
 let readStream = fs.createReadStream(path.resolve(__dirname, './list_of_uri_endpoints.txt')),

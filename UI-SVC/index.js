@@ -9,14 +9,14 @@ const
 //This is for self signed SSL -> because we are behind the corporate firewall
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-const main = require('./routes/index');
+const main = require(path.join(__dirname, './routes/index'));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //assign the swig view engine to .html files
 var swig = require('swig');

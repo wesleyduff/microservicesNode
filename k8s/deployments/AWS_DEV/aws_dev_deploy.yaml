@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: expressproxy-svc
-        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:svcV13
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:svcV1
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
       - name: expressproxy-ui
-        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:uiV18
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:uiV1
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -111,3 +111,19 @@ spec:
   sessionAffinity: None
   type: LoadBalancer
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testharness
+  labels:
+    app: postgresql
+  name: postgressql-lb
+spec:
+  selector:
+    app: postgresql
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  sessionAffinity: None
+  type: LoadBalancer

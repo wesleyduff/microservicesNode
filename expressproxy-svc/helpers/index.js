@@ -38,7 +38,12 @@ exportList.getHost = (req) => {
         return ingestURI.host.replace('www.', '');
     }
     //replace www and ports
-    const host = req.headers.host.substring(0, req.headers.host.indexOf(':')).replace('www.', '');
+    let host = '';
+    if(req.headers.host.indexOf(':') > -1){
+      host = req.headers.host.substring(0, req.headers.host.indexOf(':')).replace('www.', '')
+    } else {
+        host = req.headers.host;
+    }
     return host;
 }
 exportList.getOptions = (req) => {

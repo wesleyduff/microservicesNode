@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: expressproxy-svc
-        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:svcV1
+        image: 460570964411.dkr.ecr.us-west-2.amazonaws.com/charter/raven/testharness:svcV4
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

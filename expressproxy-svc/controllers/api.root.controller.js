@@ -6,7 +6,8 @@ const   request             =   require('request'),
     //pgDNS                   =   process.env.PG_DNS || '127.0.0.1',
     pgDNS                   =   process.env.NODE_ENV === 'dev' ? process.env.PG_DNS : '127.0.0.1',
     pgDatabase              =   pgp(`postgres://postgres:${pgPassword}@${pgDNS}:5432/testharness`),
-    chalk                   =   require('chalk');
+    chalk                   =   require('chalk'),
+    xml                     =   require('xml')
 
 
 exports.post = (req, res) => {
@@ -35,18 +36,14 @@ exports.post = (req, res) => {
 
         if(response.headers['content-type'].match(/xml/)){
             type = 'xml';
-            tableColumnType = 'text';
+            tableColumnType = 'xml';
         }
 
         if(response.headers['content-type'].match(/json/)){
             type = 'json';
             tableColumnType = 'jsonb';
         }
-
-        if(type === 'xml'){
-            dataToSave = encode(body, req.type);
-        }
-        dataToSave = dataToSave || body;
+        dataToSave = body;
         pgDatabase.none(`CREATE TABLE IF NOT EXISTS ${req.table} (datatype varchar(10), ingestcreator varchar(255), title varchar(255), created date DEFAULT now(), data ${tableColumnType}, options text)`)
             .then(createTableResult => {
                 pgDatabase.none(`INSERT INTO ${req.table} (datatype, ingestcreator, data, options, title) VALUES($1, $2, $3, $4, $5)`, [type, req.host, dataToSave, options, `${req.table} ingest from ${req.host}`])
@@ -106,16 +103,17 @@ exports.patch = (req, res) => {
 }
 
 exports.get = (req, res) => {
-    let type        = null;
 
-
-    pgDatabase.any(`SELECT * FROM ${req.table} WHERE options = '${req.options}' ORDER BY created DESC LIMIT 1`)
+    pgDatabase.any(`SELECT data, datatype FROM ${req.table} WHERE options = '${req.options}' ORDER BY created DESC LIMIT 1`)
         .then(function (resultFromGet) {
-            let returnData = { data: []};
-            resultFromGet.forEach(item => {
-                returnData.data.push({datatype: item.datatype, createdDate: item.created, title: item.title, data: item.datatype === 'xml' ? decode(item.data) : item.data, options: item.options})
-            })
-            res.json(returnData)
+            const returnData = resultFromGet[0];
+            if(returnData.datatype === 'xml'){
+                res.type('application/xml');
+                res.send(returnData.data);
+            } else {
+                res.json(returnData.data);
+            }
+
         })
         .catch(function (error) {
             console.log('ERROR:', error)

@@ -34,6 +34,7 @@ const RestAPI = require('./routes/index');
 app.use(cors());
 app.use((req, res, next) => {
     const host = getHost(req);
+    console.log('-----> HOST : ', host)
     const options = getOptions(req);
     console.log('---- options ----');
     console.log(options)

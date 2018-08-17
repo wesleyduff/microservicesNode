@@ -15,7 +15,10 @@ module.exports = (manager) => {
             });
             break;
         case 'host':
-            foundHost = generatedRoutes.data.find(item => item.host.toLowerCase() === manager.host.toLowerCase());
+            if(manager.host.includes('www.')){
+                manager.host = manager.host.replace('www.', '')
+            }
+            foundHost = generatedRoutes.data.find(item => item.host == manager.host);
             break;
         default:
             console.log(chalk.bgRed('Error: manager could not check host: expressproxy-svc hostMapper.js'));

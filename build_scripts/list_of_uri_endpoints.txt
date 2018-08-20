@@ -216,3 +216,13 @@ https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetim
 https://api.ap.org/v2/elections/2016-11-08?format=json&level=fipscode&mindatetime=2017-09-14t14%3a21%3a12.167z&apiKey=YOMkAEJtAOkyoPvXHyDIzYElVcXjTVI4
 https://api.ap.org/v2/elections/2018-06-30?format=json&level=fipscode&mindatetime=2018-07-01t03%3a01%3a16.333z&apiKey=eqJz1wytQPcEgtxu5xkNNTDiD5sSfMUi
 https://api.ap.org/v2/elections/2018-05-22?format=json&level=fipscode&mindatetime=2018-05-23t19%3a01%3a44.890z&apiKey=eqJz1wytQPcEgtxu5xkNNTDiD5sSfMUi
+https://wsidata.weather.com/201303/en-us/55518802/traffic.json
+https://wsidata.weather.com/201303/en-us/72077048/traffic.json
+https://wsidata.weather.com/201303/en-us/87575330/traffic.json
+https://wsidata.weather.com/201303/en-us/87575330/traffic.json
+https://wsidata.weather.com/201303/en-us/55518802/traffic.json
+https://wsidata.weather.com/201303/en-us/37082592/traffic.json
+https://wsidata.weather.com/201303/en-us/91437719/traffic.json
+https://wsidata.weather.com/201303/en-us/85672024/traffic.json
+https://wsidata.weather.com/201303/en-us/55518802/traffic.json
+https://wsidata.weather.com/201303/en-us/96921999/traffic.json

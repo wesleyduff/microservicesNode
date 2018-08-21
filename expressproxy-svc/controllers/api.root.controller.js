@@ -33,7 +33,7 @@ exports.post = (req, res) => {
                 type        = null,
                 tableColumnType = null;
 
-
+        dataToSave = body;
         if(response.headers['content-type'].match(/xml/)){
             type = 'xml';
             tableColumnType = 'xml';
@@ -42,10 +42,15 @@ exports.post = (req, res) => {
         if(response.headers['content-type'].match(/json/)){
             type = 'json';
             tableColumnType = 'jsonb';
+            let data_save = JSON.stringify(dataToSave);
+            data_save = data_save.replace(/'/g, "''");
+            data_save = JSON.parse(data_save);
+            dataToSave = data_save;
         }
-        dataToSave = body;
+
         pgDatabase.none(`CREATE TABLE IF NOT EXISTS ${req.table} (datatype varchar(10), ingestcreator varchar(255), title varchar(255), created date DEFAULT now(), data ${tableColumnType}, options text)`)
             .then(createTableResult => {
+
                 pgDatabase.none(`INSERT INTO ${req.table} (datatype, ingestcreator, data, options, title) VALUES($1, $2, $3, $4, $5)`, [type, req.host, dataToSave, options, `${req.table} ingest from ${req.host}`])
                     .then(insertDataResponse => {
                         pgDatabase.any(`SELECT * FROM ${req.table}`)

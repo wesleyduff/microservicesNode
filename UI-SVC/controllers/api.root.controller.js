@@ -18,6 +18,7 @@ export default () => {
                 headers.append('x-testharness-ingesturi', route.ingestUri)
                 headers.append('x-testharness-tablename', route.tableName);
                 console.log('---- calling promise')
+                console.log('------ route : ', JSON.stringify(route, null, 2))
                 return new Promise((resolve, reject) => {
                     fetch(route.serviceEndpoint, {
                         method: 'POST',

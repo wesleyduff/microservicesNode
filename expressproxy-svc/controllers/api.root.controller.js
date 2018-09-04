@@ -43,7 +43,7 @@ exports.post = (req, res) => {
             type = 'json';
             tableColumnType = 'jsonb';
             let data_save = JSON.stringify(dataToSave);
-            data_save = data_save.replace(/'/g, "''");
+            data_save = data_save.replace(/'/g, "`");
             data_save = JSON.parse(data_save);
             dataToSave = data_save;
         }

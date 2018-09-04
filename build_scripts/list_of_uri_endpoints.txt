@@ -201,22 +201,6 @@ http://spectrumlocalnews.com/services/event.09-07-2018.regions:.json
 http://spectrumlocalnews.com/services/event.09-08-2018.regions:.json
 http://spectrumlocalnews.com/services/event.09-09-2018.regions:.json
 http://www.schoolclosingsnetwork.com/output/capitalnews9/closings.asp
-https://api.ap.org/v2/elections/2016-11-08?format=json&level=fipscode&mindatetime=2017-02-17t16%3a48%3a58.280z&apiKey=B227DRLzGkjfLahRlZxVV3MLNBSg3eNS
-https://api.ap.org/v2/elections/2016-08-30?format=json&level=fipscode&mindatetime=2016-08-31t14%3a47%3a20.000z&apiKey=B227DRLzGkjfLahRlZxVV3MLNBSg3eNS
-https://api.ap.org/v2/elections/2016-03-15?format=json&level=fipscode&mindatetime=2016-03-16t21%3a05%3a09.000z&apiKey=B227DRLzGkjfLahRlZxVV3MLNBSg3eNS
-https://api.ap.org/v2/elections/2012-11-06?format=json&level=fipscode&mindatetime=2016-06-22t17%3a06%3a06.000z&apiKey=B227DRLzGkjfLahRlZxVV3MLNBSg3eNS
-https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetime=2018-06-27t17%3a08%3a02.290z&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
-https://api.ap.org/v2/elections/2017-11-07?format=json&level=fipscode&mindatetime=2017-11-08t20%3a23%3a21.250z&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
-https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetime=2018-06-27t17%3a08%3a02.290z&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
-https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetime=2018-06-27t17%3a08%3a02.290z&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
-https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetime=2018-06-27t17%3a08%3a02.290z&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
-https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetime=2018-06-27t17%3a08%3a02.290z&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
-https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetime=2018-06-27t17%3a08%3a02.290z&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
-https://api.ap.org/v2/elections/2018-06-26?format=json&level=fipscode&mindatetime=2018-06-27t17%3a08%3a02.290z&apiKey=jBouaJMW3p2LB3JGZFBue6bZqpFWVpSl
-https://api.ap.org/v2/elections/2016-11-08?format=json&level=fipscode&mindatetime=2017-09-14t14%3a21%3a12.167z&apiKey=YOMkAEJtAOkyoPvXHyDIzYElVcXjTVI4
-https://api.ap.org/v2/elections/2018-06-30?format=json&level=fipscode&mindatetime=2018-07-01t03%3a01%3a16.333z&apiKey=eqJz1wytQPcEgtxu5xkNNTDiD5sSfMUi
-https://api.ap.org/v2/elections/2018-05-22?format=json&level=fipscode&mindatetime=2018-05-23t19%3a01%3a44.890z&apiKey=eqJz1wytQPcEgtxu5xkNNTDiD5sSfMUi
-https://api.ap.org/v2/elections/2016-03-01?format=JSON&level=FIPSCode&apiKey=eqJz1wytQPcEgtxu5xkNNTDiD5sSfMUi
 https://wsidata.weather.com/201303/en-us/55518802/traffic.json
 https://wsidata.weather.com/201303/en-us/72077048/traffic.json
 https://wsidata.weather.com/201303/en-us/87575330/traffic.json
@@ -227,3 +211,4 @@ https://wsidata.weather.com/201303/en-us/91437719/traffic.json
 https://wsidata.weather.com/201303/en-us/85672024/traffic.json
 https://wsidata.weather.com/201303/en-us/55518802/traffic.json
 https://wsidata.weather.com/201303/en-us/96921999/traffic.json
+https://api.ap.org/v2/elections/2018-09-13/?format=json&level=FIPSCode&test=true&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8

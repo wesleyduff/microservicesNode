@@ -3,36 +3,84 @@ kind: Deployment
 metadata:
   namespace: testharness
   labels:
-    run: expressproxy-svc
+    app: expressproxy-svc
   name: expressproxy-svc
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      run: expressproxy-svc
+      app: expressproxy-svc
   template:
     metadata:
       labels:
-        run: expressproxy-svc
+        app: expressproxy-svc
     spec:
       containers:
       - name: expressproxy-svc
-        image: localexpress
+        image: localsvc:v1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
-      - name: expressproxy-ui
-        image: localUI
+      restartPolicy: Always
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: testharness
+  labels:
+    app: expressproxy-ui
+  name: expressproxy-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expressproxy-ui
+  template:
+    metadata:
+      labels:
+        app: expressproxy-ui
+    spec:
+      containers:
+      - name: expressproxy-uis
+        image: localui:v1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
       restartPolicy: Always
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testharness
+  name: expressproxy-ui
+  labels:
+    app: expressproxy-ui
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: expressproxy-ui
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testharness
+  labels:
+    app: expressproxy-svc
+  name: expressproxy-svc
+spec:
+  selector:
+    app: expressproxy-svc
+  ports:
+  - port: 3001
+    targetPort: 8080
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   namespace: testharness
-  name: expressproxy-svc
+  name: expressproxy-svc-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
 spec:
@@ -41,24 +89,9 @@ spec:
       paths:
       - backend:
           serviceName: expressproxy-svc
+          servicePort: 8080
+        path: /svc
+      - backend:
+          serviceName: expressproxy-ui
           servicePort: 3000
         path: /
----
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: testharness
-  name: expressproxy-svc
-spec:
-  type: NodePort
-  ports:
-  - port: 3000
-    name: web
-    protocol: TCP
-    targetPort: 3000
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-    name: api
-  selector:
-    run: expressproxy-svc

@@ -1,0 +1,42 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: testharness
+  labels:
+    run: raven-svc
+  name: raven-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: raven-svc
+  template:
+    metadata:
+      labels:
+        run: raven-svc
+    spec:
+      containers:
+      - name: raven-svc
+        image: raven:vFin
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testharness
+  name: raven-svc
+  labels:
+    run: raven
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    name: web
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    run: raven-svc

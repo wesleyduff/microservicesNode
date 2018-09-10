@@ -37,6 +37,10 @@ exports.post = (req, res) => {
         if(response.headers['content-type'].match(/xml/)){
             type = 'xml';
             tableColumnType = 'xml';
+            dataToSave = dataToSave.replace(/\<\?xml.+\?\>/g, '');
+            dataToSave = dataToSave.replace(/\<\!.+|]\>/g, '');
+            dataToSave = dataToSave.replace(/(\r\n\t|\n|\r\t)/gm, '');
+            dataToSave = dataToSave.trim();
         }
 
         if(response.headers['content-type'].match(/json/)){
@@ -45,7 +49,7 @@ exports.post = (req, res) => {
             let data_save = JSON.stringify(dataToSave);
             data_save = data_save.replace(/'/g, "`");
             data_save = JSON.parse(data_save);
-            dataToSave = data_save;
+            dataToSave = data_save.trim();
         }
 
         pgDatabase.none(`CREATE TABLE IF NOT EXISTS ${req.table} (datatype varchar(10), ingestcreator varchar(255), title varchar(255), created date DEFAULT now(), data ${tableColumnType}, options text)`)

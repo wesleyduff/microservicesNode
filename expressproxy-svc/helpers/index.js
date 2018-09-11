@@ -30,6 +30,8 @@ exportList.getTableName = (req) => {
     return null;
 }
 exportList.getHost = (req) => {
+    console.log('-----< req -<> ');
+    console.log(req)
     if(req.headers['x-testharness-host']){
         return req.headers['x-testharness-host'];
     }

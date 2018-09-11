@@ -73,7 +73,7 @@ spec:
   selector:
     app: expressproxy-svc
   ports:
-  - port: 3001
+  - port: 80
     targetPort: 8080
 ---
 apiVersion: extensions/v1beta1

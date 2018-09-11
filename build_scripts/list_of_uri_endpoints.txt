@@ -212,4 +212,5 @@ https://wsidata.weather.com/201303/en-us/85672024/traffic.json
 https://wsidata.weather.com/201303/en-us/55518802/traffic.json
 https://wsidata.weather.com/201303/en-us/96921999/traffic.json
 https://api.ap.org/v2/elections?format=json&apiKey=YOMkAEJtAOkyoPvXHyDIzYElVcXjTVI4
+https://api.ap.org/v2/elections?format=json&amp;apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8
 https://api.ap.org/v2/elections/2018-09-13/?format=json&level=FIPSCode&test=true&apiKey=jFhA6VtwLl9RNK7WiZlp62w24k9Gbyk8

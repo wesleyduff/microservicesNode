@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-snippet: |
+          server_name api.ap.org
+
+          location api.ap.org {
+            proxy_pass  http://10.103.120.248;
+          }
+  name: reverse-proxy
+  namespace: testharness
+spec:
+  rules:
+  - host: api.ap.org
+    http:
+      paths:
+      - backend:
+          serviceName: expressproxy-svc-for-nginx
+          servicePort: 80
+        path: /

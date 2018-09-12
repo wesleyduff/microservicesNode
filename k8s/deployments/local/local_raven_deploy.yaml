@@ -22,11 +22,6 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
-      hostAliases:
-        - ip: "10.98.167.224"
-          hostnames:
-          - "api.stats.com"
-          - "api.ap.org"
       restartPolicy: Always
 ---
 apiVersion: v1

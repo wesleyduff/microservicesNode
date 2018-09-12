@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: testharness
+  labels:
+    app: expressproxy-svc-for-nginx
+  name: expressproxy-svc-for-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expressproxy-svc-for-nginx
+  template:
+    metadata:
+      labels:
+        app: expressproxy-svc-for-nginx
+    spec:
+      containers:
+      - name: expressproxy-svc-for-nginx
+        image: localsvc:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testharness
+  labels:
+    app: expressproxy-svc-for-nginx
+  name: expressproxy-svc-for-nginx
+spec:
+  selector:
+    app: expressproxy-svc-for-nginx
+  ports:
+  - port: 80
+    targetPort: 8080
